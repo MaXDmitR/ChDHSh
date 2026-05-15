@@ -1,30 +1,43 @@
 // src/components/Header/menuData.js
-import { FaUserFriends, FaPalette, FaChalkboardTeacher, FaShoppingBag, FaBookOpen, FaVideo, FaNewspaper } from 'react-icons/fa';
-// ТУТ МАЮТЬ БУТИ ІКОНКИ-ЗАГЛУШКИ. ЗАМІНИ НА КАСТОМНІ SVG ПОТІМ.
+import { FaInfoCircle, FaUserEdit, FaBookOpen, FaImages } from 'react-icons/fa';
 
 export const menuItems = [
   { 
     title: 'ПРО НАС', 
-    icon: FaUserFriends, // Заглушка
+    icon: FaInfoCircle, 
     submenu: [
-      { title: 'Про Львівську дитячу галерею', url: '/about/gallery' },
-      { title: 'Про Ольгу Михайлюк', url: '/about/founder' },
-      { title: 'Презентація Арт Форуму', url: '/about/forum' },
-      { title: 'Незламний Золотий Мольберт', url: '/about/easel' },
-      { title: 'Про видання Ольги Михайлюк', url: '/about/publications' },
+      { title: 'Про школу', url: '/about' },
+      { title: 'Викладачі', url: '/teachers' },
+      { title: 'Контакти (телефон, email, мапа)', url: '/contacts' },
+      { title: 'Ми у Facebook', url: 'https://www.facebook.com/' }, // Тут вставиш реальне посилання
     ]
   },
-  { title: 'ДИТЯЧА ГАЛЕРЕЯ', icon: FaPalette, url: '/gallery' },
   { 
-    title: 'ЗОЛОТИЙ МОЛЬБЕРТ', 
-    icon: FaChalkboardTeacher, // Заглушка
+    title: 'ВСТУП', 
+    icon: FaUserEdit, 
     submenu: [
-      { title: 'Конкурс', url: '/easel/competition' },
-      { title: 'Учасники', url: '/easel/participants' },
+      { title: 'Правила прийому', url: '/admission/rules' },
+      { title: 'Заява', url: '/admission/application' },
+      { title: 'Пільгове навчання', url: '/admission/benefits' },
     ]
   },
-  { title: 'МАГАЗИН', icon: FaShoppingBag, url: '/shop' },
-  { title: 'ВИДАВНИЧИЙ ДІМ', icon: FaBookOpen, url: '/publishing' },
-  { title: 'ВІДЕОМАТЕРІАЛИ', icon: FaVideo, url: '/video' },
-  { title: 'НОВИНИ', icon: FaNewspaper, url: '/news' },
+  { 
+    title: 'ОСВІТНІ ПОСЛУГИ', 
+    icon: FaBookOpen, 
+    submenu: [
+      { title: 'Предмети', url: '/education/subjects' },
+      // Зовнішнє посилання на сайт МОН
+      { title: 'Типові навчальні програми (МОН)', url: 'https://mon.gov.ua/ua' }, 
+    ]
+  },
+  { 
+    // Оскільки вони хочуть наповнення по роках, робимо це також через сабменю
+    title: 'ВІРТУАЛЬНА ДИТЯЧА ГАЛЕРЕЯ', 
+    icon: FaImages, 
+    submenu: [
+      { title: '2025-2026 навчальний рік', url: '/gallery/2025-2026' },
+      { title: '2024-2025 навчальний рік', url: '/gallery/2024-2025' },
+      { title: 'Архів робіт', url: '/gallery/archive' },
+    ]
+  }
 ];
