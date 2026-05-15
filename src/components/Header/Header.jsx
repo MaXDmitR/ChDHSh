@@ -3,7 +3,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaShoppingCart, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { menuItems } from './menuData';
-import logo from '../../assets/logo.png'; 
+import logo from '../../assets/logo.webp'; 
 import './Header.scss';
 
 export const Header = () => {
