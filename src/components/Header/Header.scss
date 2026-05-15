@@ -356,16 +356,7 @@
         border-radius: $radius-sm;
 
         // Стрілочка зверху дропдауну
-        &::before {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            left: 35px;
-            transform: none;
-            border-width: 8px;
-            border-style: solid;
-            border-color: transparent transparent $bg-dropdown transparent;
-        }
+        
 
         max-height: none;
         overflow: visible;
