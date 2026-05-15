@@ -1,0 +1,36 @@
+// src/styles/_helpers.scss
+@use "sass:map"; // Підключаємо вбудований модуль для роботи з мапами
+
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px
+);
+
+// Для екранів ВІД вказаного розміру і БІЛЬШЕ (min-width)
+@mixin media-breakpoint-up($name) {
+  // Використовуємо нову функцію map.get замість map-get
+  $min: map.get($breakpoints, $name); 
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @warn "Брейкпоінт #{$name} не знайдено.";
+  }
+}
+
+// Для екранів ДО вказаного розміру і МЕНШЕ (max-width)
+@mixin media-breakpoint-down($name) {
+  // Використовуємо нову функцію map.get
+  $max: map.get($breakpoints, $name); 
+  @if $max {
+    @media (max-width: #{$max - 0.02px}) {
+      @content;
+    }
+  } @else {
+    @warn "Брейкпоінт #{$name} не знайдено.";
+  }
+}

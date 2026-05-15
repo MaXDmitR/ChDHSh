@@ -1,0 +1,414 @@
+// src/components/Header/Header.scss
+@use '../../styles/helpers' as *;
+@use '../../styles/variables' as *; // Імпортуємо брейкпоінти
+
+// Змінні кольорів (зі скріншоту)
+$colorBlue: #006699;
+$colorText: #333;
+$colorBg: #fdfdfd; // Світлий фон хедера
+$colorDropdownBg: #f5f1e6; // Фон випадаючого списку (зі скріншоту)
+
+// Загальний контейнер (щоб контент не розповзався)
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include media-breakpoint-up('sm') { max-width: 540px; }
+  @include media-breakpoint-up('md') { max-width: 720px; }
+  @include media-breakpoint-up('lg') { max-width: 960px; }
+  @include media-breakpoint-up('xl') { max-width: 1140px; }
+  @include media-breakpoint-up('xxl') { max-width: 1320px; }
+}
+
+.header {
+  background-color: $colorBg;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  z-index: 1000;
+}
+
+// ==========================================
+// 1. ВЕРХНЯ ПАНЕЛЬ (Top Bar)
+// ==========================================
+.headerTop {
+  background-color: $colorBg; // Трохи темніший фон
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+  display: none; // За замовчуванням ховаємо на мобільних
+
+  @include media-breakpoint-up('lg') {
+    display: block; // Показуємо на десктопі
+  }
+}
+
+.headerTopContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: $colorText;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.headerPhone {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  svg { color: #555; }
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.headerSocials {
+  display: flex;
+  gap: 15px;
+  
+  a {
+    color: #555;
+    transition: color 0.2s;
+    &:hover { color: $colorBlue; }
+  }
+}
+
+.headerCart {
+  color: $colorText;
+  font-size: 18px;
+  position: relative;
+}
+
+.headerLang {
+  span {
+    cursor: pointer;
+    &.active { font-weight: bold; }
+  }
+}
+
+// ==========================================
+// 2. ОСНОВНИЙ ХЕДЕР (Лого + Мобільна панель)
+// ==========================================
+.headerMain {
+  padding: 10px 0;
+  background: white;
+
+  @include media-breakpoint-up('lg') {
+    padding: 20px 0;
+  }
+}
+
+.headerMainContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Блок логотипу
+.headerLogoBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerLogoImg {
+  height: 50px; // Мобільний розмір
+  @include media-breakpoint-up('lg') {
+    height: 80px; // Десктопний розмір
+  }
+}
+
+.headerLogoText {
+  color: $colorBlue;
+}
+
+.headerLogoSub {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  @include media-breakpoint-up('lg') { font-size: 12px; }
+}
+
+.headerLogoTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.2;
+  @include media-breakpoint-up('lg') { font-size: 24px; }
+}
+
+// Кнопка гамбургера
+.headerHamburger {
+  display: block; // Показуємо на мобільних
+  background: none;
+  border: none;
+  color: $colorBlue;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100; // Щоб бути поверх виїзного меню
+
+  @include media-breakpoint-up('lg') {
+    display: none; // Ховаємо на десктопі
+  }
+}
+
+// ==========================================
+// 3. НАВІГАЦІЯ (МОБІЛЬНИЙ ВИГЛЯД - Mobile First)
+// ==========================================
+.headerNav {
+  // Реалізація "Bootstrap-style" виїзного меню збоку
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px; // Ширина мобільного меню
+  height: 100vh;
+  background-color: white;
+  padding: 80px 20px 40px; // Паддінг зверху, щоб звільнити місце під кнопку закриття
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  
+  // АНІМАЦІЯ: Ховаємо за правий край
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  
+  z-index: 1050;
+  overflow-y: auto; // Якщо меню довге, можна скролити
+
+  // Клас, який додається через React, коли меню відкрите
+  &.headerNavMobileOpen {
+    transform: translateX(0);
+  }
+
+  // Десктопні стилі (переписуємо мобільні)
+  @include media-breakpoint-up('lg') {
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    transform: none;
+    display: block;
+    overflow: visible;
+  }
+}
+
+// Список меню
+.headerMenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; // Мобільний стовпчик
+  gap: 10px;
+
+  @include media-breakpoint-up('lg') {
+    flex-direction: row; // Десктопний рядок
+    justify-content: flex-end;
+    gap: 0; // На десктопі регулюємо відступи паддінгами посилань
+  }
+}
+
+.headerMenuItem {
+  border-bottom: 1px solid #eee; // Розділювачі на мобільних
+
+  @include media-breakpoint-up('lg') {
+    border: none;
+    position: relative; // Для позиціонування десктопного дропдауну
+    
+    // Ефект ховеру на десктопі (показуємо дропдаун)
+    &:hover .headerSubmenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Обгортка посилання та стрілочки
+.headerMenuLinkWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Саме посилання
+.headerMenuLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  color: $colorText;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+
+  @include media-breakpoint-up('lg') {
+    flex-direction: column; // Іконка НАД текстом
+    gap: 5px;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12px; // Менший шрифт на десктопі через брак місця
+  }
+  
+  &:hover { color: $colorBlue; }
+}
+
+// Місце для іконок (заглушки)
+.headerMenuIconPlaceholder {
+  color: $colorBlue;
+  font-size: 20px; // Мобільний розмір
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include media-breakpoint-up('lg') {
+    font-size: 32px; // Десктопний розмір
+  }
+}
+
+// Стрілочка для мобільного сабменю
+.headerSubmenuToggle {
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &.headerSubmenuToggleActive {
+    transform: rotate(180deg);
+    color: $colorBlue;
+  }
+
+  @include media-breakpoint-up('lg') {
+    display: none; // Ховаємо на десктопі (там ховер)
+  }
+}
+
+// ==========================================
+// 4. ВИПАДАЮЧИЙ СПИСОК (SCSS для обох видів)
+// ==========================================
+.headerSubmenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa; // Легкий фон на мобільних
+  
+  // АНІМАЦІЯ: Ховаємо сабменю на мобільних (висота 0)
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+
+  // Клас відкриття сабменю на мобільних
+  &.headerSubmenuMobileOpen {
+    max-height: 500px; // Достатньо велика висота
+    padding-bottom: 10px;
+  }
+
+  // --- ДЕСКТОПНИЙ ВИГЛЯД (стилізація як на image_0.png) ---
+  @include media-breakpoint-up('lg') {
+    position: absolute;
+    top: 100%;
+    left: 0; // Прив'язуємо до лівого краю кнопки
+    transform: translateY(10px); // Тільки зсув вниз для анімації
+    
+    width: 280px; 
+    background-color: $colorDropdownBg; 
+    padding: 15px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    
+    // Стрілочка зверху дропдауну
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 35px; // Позиція під іконкою (без translateX)
+      transform: none; 
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent transparent $colorDropdownBg transparent;
+    }
+
+    max-height: none;
+    overflow: visible;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  }
+}
+
+.headerSubmenuItem {
+  @include media-breakpoint-up('lg') {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    &:last-child { border: none; }
+  }
+}
+
+.headerSubmenuLink {
+  display: block;
+  padding: 10px 20px 10px 40px; // Зсув вправо на мобільних
+  color: $colorText;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s;
+
+  @include media-breakpoint-up('lg') {
+    padding: 12px 20px;
+    color: $colorText;
+    text-transform: none; // Не капіталізуємо
+    line-height: 1.3;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.03);
+      color: $colorBlue;
+    }
+  }
+}
+
+// Додаткові мобільні елементи внизу меню
+.headerMobileExtra {
+  margin-top: auto; // Притискаємо до низу
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+  
+  @include media-breakpoint-up('lg') {
+    display: none; // Ховаємо на десктопі
+  }
+}
+
+.headerMobileInfo {
+  margin-bottom: 15px;
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $colorText;
+    text-decoration: none;
+    font-size: 16px;
+    svg { color: $colorBlue; }
+  }
+}
+
+.headerMobileActions {
+  display: flex;
+  gap: 20px;
+  font-size: 20px;
+  a { color: #555; }
+}
