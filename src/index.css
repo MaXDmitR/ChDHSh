@@ -1,0 +1,24 @@
+/* src/index.css */
+
+/* 1. Скидаємо всі базові відступи браузера */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Задаємо базові стилі для сторінки */
+body {
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  background-color: #ffffff; /* Твій базовий фон сторінки */
+  color: #333333;
+  overflow-x: hidden; /* Запобігає появі горизонтального скролу */
+}
+
+/* 3. Кажемо головному контейнеру React займати 100% ширини екрану */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

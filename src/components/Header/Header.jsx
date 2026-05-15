@@ -43,9 +43,9 @@ export const Header = () => {
             <a href="/cart" className="headerCart">
               <FaShoppingCart />
             </a>
-            <div className="headerLang">
+            {/*<div className="headerLang">
               <span>ENG</span> | <span className="active">УКР</span>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
