@@ -58,7 +58,7 @@ export const Header = () => {
             <img src={logo} alt="ЧДХШ ім.Данила Нарбута" className="headerLogoImg" />
             <div className="headerLogoText">
               <span className="headerLogoSub">ім.Данила Нарбута</span>
-              <h1 className="headerLogoTitle">ЧДХШ</h1>
+              <h1 className="headerLogoTitle">ЧЕРКАСЬКА ДЕРЖАВНА ХУДОЖНЯ ШКОЛА</h1>
             </div>
           </div>
 
