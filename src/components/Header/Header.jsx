@@ -1,23 +1,26 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Додали useEffect
+import { useLocation, Link } from 'react-router-dom'; // Додали useLocation
 import clsx from 'clsx';
 import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaShoppingCart, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { menuItems } from './menuData';
-import { Link } from 'react-router-dom'; // Якщо використовуєш React Router для навігації
 import logo from '../../assets/logo.webp'; 
 import './Header.scss';
 
-
 export const Header = () => {
-  // Стейт для відкриття/закриття мобільного меню
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Стейт для відстеження відкритого сабменю на мобілках (по індексу)
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
+  
+  // Отримуємо поточний шлях (URL)
+  const location = useLocation();
+
+  // МАГІЯ: Цей ефект спрацьовує щоразу, коли змінюється URL (location)
+  useEffect(() => {
+    setIsMenuOpen(false);       // Ховаємо бокову панель
+    setOpenSubmenuIndex(null);  // Закриваємо всі відкриті акордеони
+  }, [location]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    // При закритті головного меню, закриваємо і всі відкриті сабменю
     if (isMenuOpen) setOpenSubmenuIndex(null);
   };
 
@@ -42,9 +45,6 @@ export const Header = () => {
               <a href="#"><FaInstagram /></a>
               <a href="#"><FaEnvelope /></a>
             </div>
-            <a href="/cart" className="headerCart">
-              <FaShoppingCart />
-            </a>
           </div>
         </div>
       </div>

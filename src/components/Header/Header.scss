@@ -361,19 +361,23 @@
 // 4. ВИПАДАЮЧИЙ СПИСОК
 // ==========================================
 .headerSubmenu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background-color: $bg-light;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-light; 
+  
+  // --- НОВІ ПЛАВНІ АНІМАЦІЇ ДЛЯ МОБІЛЬНОГО ---
+  max-height: 0;
+  opacity: 0; // Робимо невидимим
+  overflow: hidden;
+  // Анімуємо і висоту, і прозорість (прозорість з'являється трохи швидше)
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
 
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-
-    &.headerSubmenuMobileOpen {
-        max-height: 500px;
-        padding-bottom: 10px;
-    }
+  &.headerSubmenuMobileOpen {
+    max-height: 600px; // Задаємо з запасом під усі пункти
+    opacity: 1; // Робимо видимим
+    padding-bottom: 10px;
+  }
 
     @include media-breakpoint-up('lg') {
         position: absolute;
