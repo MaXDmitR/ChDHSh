@@ -16,16 +16,16 @@ export const menuItems = [
     title: 'ВСТУП', 
     icon: FaUserEdit, 
     submenu: [
-      { title: 'Правила прийому', url: '/admission/rules' },
-      { title: 'Заява', url: '/admission/application' },
-      { title: 'Пільгове навчання', url: '/admission/benefits' },
+      { title: 'Правила прийому', url: '/admissionrules' },
+      { title: 'Заява', url: '/statement' },
+      { title: 'Пільгове навчання', url: '/preferentialtuition' },
     ]
   },
   { 
     title: 'ОСВІТНІ ПОСЛУГИ', 
     icon: FaBookOpen, 
     submenu: [
-      { title: 'Предмети', url: '/education/subjects' },
+      { title: 'Предмети', url: '/subjects' },
       // Зовнішнє посилання на сайт МОН
       { title: 'Типові навчальні програми (МОН)', url: 'https://mon.gov.ua/ua' }, 
     ]
@@ -37,7 +37,7 @@ export const menuItems = [
     submenu: [
       { title: '2025-2026 навчальний рік', url: '/gallery/2025-2026' },
       { title: '2024-2025 навчальний рік', url: '/gallery/2024-2025' },
-      { title: 'Архів робіт', url: '/gallery/archive' },
+      { title: 'Архів робіт', url: '/works-archive' },
     ]
   }
 ];

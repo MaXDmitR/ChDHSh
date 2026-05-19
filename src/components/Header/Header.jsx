@@ -3,8 +3,10 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaShoppingCart, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { menuItems } from './menuData';
+import { Link } from 'react-router-dom'; // Якщо використовуєш React Router для навігації
 import logo from '../../assets/logo.webp'; 
 import './Header.scss';
+
 
 export const Header = () => {
   // Стейт для відкриття/закриття мобільного меню
@@ -43,9 +45,6 @@ export const Header = () => {
             <a href="/cart" className="headerCart">
               <FaShoppingCart />
             </a>
-            {/*<div className="headerLang">
-              <span>ENG</span> | <span className="active">УКР</span>
-            </div>*/}
           </div>
         </div>
       </div>
@@ -55,7 +54,9 @@ export const Header = () => {
         <div className="container headerMainContainer">
           {/* Блок логотипу */}
           <div className="headerLogoBlock">
+            <Link to='/'>
             <img src={logo} alt="ЧДХШ ім.Данила Нарбута" className="headerLogoImg" />
+            </Link>
             <div className="headerLogoText">
               <span className="headerLogoSub">ім.Данила Нарбута</span>
               <h1 className="headerLogoTitle">ЧЕРКАСЬКА ДЕРЖАВНА ХУДОЖНЯ ШКОЛА</h1>
@@ -83,13 +84,13 @@ export const Header = () => {
                   >
                     {/* Посилання або кнопка для відкриття сабменю */}
                     <div className="headerMenuLinkWrapper">
-                      <a href={item.url || '#'} className="headerMenuLink">
+                      <Link to={item.url || '#'} className="headerMenuLink">
                         {/* Місце для іконок (заглушки) */}
                         <div className="headerMenuIconPlaceholder">
                            <Icon />
                         </div>
                         <span className="headerMenuTitle">{item.title}</span>
-                      </a>
+                      </Link>
                       
                       {/* Стрілочка для мобільного сабменю */}
                       {hasSubmenu && (
@@ -107,9 +108,9 @@ export const Header = () => {
                       <ul className={clsx("headerSubmenu", isSubmenuOpen && "headerSubmenuMobileOpen")}>
                         {item.submenu.map((subitem, subIndex) => (
                           <li key={subIndex} className="headerSubmenuItem">
-                            <a href={subitem.url} className="headerSubmenuLink">
+                            <Link to={subitem.url} className="headerSubmenuLink">
                               {subitem.title}
-                            </a>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -122,12 +123,12 @@ export const Header = () => {
             {/* Мобільні контакти/соціалки (внизу виїзного меню, як на image_3.png) */}
             <div className="headerMobileExtra">
                <div className="headerMobileInfo">
-                  <a href="tel:0678439767"><FaPhoneAlt /> 067 843-97-67</a>
+                  <Link to="tel:0678439767"><FaPhoneAlt /> 067 843-97-67</Link>
                </div>
                <div className="headerMobileActions">
-                  <a href="#"><FaFacebookF /></a>
-                  <a href="#"><FaInstagram /></a>
-                  <a href="#"><FaEnvelope /></a>
+                  <Link to="#"><FaFacebookF /></Link>
+                  <Link to="#"><FaInstagram /></Link>
+                  <Link to="#"><FaEnvelope /></Link>
                </div>
             </div>
           </nav>
