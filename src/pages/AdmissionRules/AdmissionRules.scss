@@ -1,0 +1,207 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.admissionContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+
+  h2 {
+    font-size: $fs-h2;
+    color: $text-primary;
+    margin-bottom: 20px;
+    text-align: center;
+    
+    @include media-breakpoint-up('lg') {
+      text-align: left;
+    }
+  }
+}
+
+// --- Вступний текст ---
+.admissionIntro {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  text-align: center;
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    font-size: $fs-medium;
+    color: $text-secondary;
+    line-height: 1.6;
+
+    strong {
+      color: $color-primary;
+      font-weight: $fw-bold;
+    }
+  }
+}
+
+// --- Етапи вступу (Картки) ---
+.admissionStepsSection {
+  margin-bottom: 80px;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-top: 30px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stepCard {
+  background-color: white;
+  border-radius: $radius-md;
+  padding: 30px;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  position: relative;
+  @include transition-base;
+
+  // Декоративна лінія зверху картки
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: $color-primary;
+    border-radius: $radius-md $radius-md 0 0;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.stepHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stepIcon {
+  font-size: 32px;
+  color: $color-primary;
+}
+
+.stepNumber {
+  background-color: rgba($color-primary, 0.1);
+  color: $color-primary;
+  padding: 5px 12px;
+  border-radius: 50rem; // Pill shape
+  font-size: $fs-small;
+  font-weight: $fw-bold;
+}
+
+.stepTitle {
+  font-size: 20px;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin-bottom: 10px;
+}
+
+.stepDate {
+  font-size: $fs-body;
+  color: #e6683c; // Використовуємо яскравий колір для дат (з градієнта інсти)
+  font-weight: $fw-medium;
+  margin-bottom: 15px;
+}
+
+.stepText {
+  font-size: $fs-body;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+// --- Перелік документів ---
+.admissionDocsSection {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.docsBox {
+  background-color: $bg-light;
+  padding: 40px;
+  border-radius: $radius-md;
+  margin-bottom: 30px;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    @include media-breakpoint-up('lg') {
+      justify-content: flex-start;
+    }
+  }
+
+  .titleIcon {
+    color: $color-primary;
+  }
+}
+
+.docsList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+
+  li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-size: $fs-medium;
+    color: $text-primary;
+    line-height: 1.5;
+
+    // Кастомна галочка замість стандартного маркера списку
+    &::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: $color-primary;
+      font-weight: $fw-bold;
+      font-size: 18px;
+    }
+  }
+}
+
+.docsAction {
+  text-align: center;
+  
+  @include media-breakpoint-up('lg') {
+    text-align: left;
+  }
+}
+
+// --- Важливе зауваження (Alert) ---
+.importantNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background-color: rgba(249, 172, 7, 0.1); // Жовтуватий фон для уваги
+  border-left: 4px solid #F9AC07; // Твій колір зі старих змінних
+  padding: 20px;
+  border-radius: 0 $radius-sm $radius-sm 0;
+  color: $text-primary;
+  font-size: $fs-body;
+  line-height: 1.5;
+
+  .noticeIcon {
+    color: #F9AC07;
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}

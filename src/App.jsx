@@ -22,6 +22,8 @@ import Subjects from '@/pages/Subjects/Subjects'
 import WorksArchive from '@/pages/WorksArchive/WorksArchive'
 import Gallery from '@/pages/Gallery/Gallery'
 
+import Footer from '@/components/Footer/Footer'
+
 
 
 const App = () => {
@@ -36,14 +38,18 @@ const App = () => {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/works-archive" element={<WorksArchive />} />
-          <Route path="/admission/rules" element={<AdmissionRules />} />
+          <Route path="/admissionrules" element={<AdmissionRules />} />
           <Route path="/statement" element={<Statement />} />
           <Route path="/preferentialtuition" element={<PreferentialTuition />} />
           <Route path="/gallery/2025-2026" element={<Gallery year="2025-2026" />} />
           <Route path="/gallery/2024-2025" element={<Gallery year="2024-2025" />} />
-          
-        </Routes>
+          <Route path="/gallery/2023-2024" element={<Gallery year="2023-2024" />} />
+          <Route path="/gallery/2022-2023" element={<Gallery year="2022-2023" />} />
+          <Route path="/gallery/2021-2022" element={<Gallery year="2021-2022" />} />
+          <Route path="/gallery/2020-2021" element={<Gallery year="2020-2021" />} />
 
+        </Routes>
+        <Footer />
       </main>
     </BrowserRouter>
   )

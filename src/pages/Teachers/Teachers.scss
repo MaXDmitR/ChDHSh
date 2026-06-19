@@ -1,0 +1,88 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.teachersContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+.teachersGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+
+  // На планшеті 2 колонки
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // На десктопі 4 колонки (або 3, якщо хочеш більші картки, тоді напиши repeat(3, 1fr))
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Картка викладача
+.teacherCard {
+  background-color: $bg-body;
+  border-radius: $radius-md;
+  overflow: hidden; // Щоб картинка не вилазила за заокруглені кути
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  @include transition-base;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-md;
+    border-color: rgba($color-primary, 0.3); // Легка підсвітка рамки
+  }
+}
+
+// Обгортка для фото
+.teacherImageWrapper {
+  width: 100%;
+  height: 280px; // Фіксована висота, щоб усі картки були рівними
+  overflow: hidden;
+}
+
+.teacherImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; // Картинка заповнює блок, обрізаючи зайве
+  object-position: top center; // Фокус на обличчя
+  @include transition-base;
+
+  .teacherCard:hover & {
+    transform: scale(1.05); // Збільшуємо фото при наведенні на картку
+  }
+}
+
+// Текстовий блок
+.teacherInfo {
+  padding: 25px 20px;
+  text-align: center;
+}
+
+.teacherName {
+  font-size: 20px; // Трохи більше за середній текст
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin-bottom: 5px;
+}
+
+.teacherRole {
+  display: block;
+  font-size: $fs-small;
+  color: $color-primary;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.teacherDesc {
+  font-size: $fs-body;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin: 0;
+}

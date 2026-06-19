@@ -1,0 +1,180 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.statementContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+.statementGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
+  align-items: start;
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: 1.5fr 1fr; // Форма займає більше місця, ніж блок скачування
+  }
+}
+
+// --- СТИЛІЗАЦІЯ ФОРМИ (Ліва частина) ---
+.statementFormWrapper {
+  background-color: white;
+  padding: 30px 20px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+
+  @include media-breakpoint-up('md') {
+    padding: 40px;
+  }
+
+  h2 {
+    font-size: $fs-h2;
+    color: $text-primary;
+    margin-bottom: 15px;
+  }
+}
+
+.formNotice {
+  font-size: $fs-body;
+  color: $text-secondary;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.admissionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: $fs-body;
+    font-weight: $fw-medium;
+    color: $text-primary;
+  }
+
+  // Стилізація всіх текстових полів, дат та селектів
+  input[type="text"],
+  input[type="tel"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: $fs-body;
+    font-family: inherit;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    background-color: #fafafa;
+    outline: none;
+    @include transition-base;
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1); // Гарне ніжне світіння при фокусі
+    }
+  }
+}
+
+// Рядок з двома колонками (для дати та вибору класу)
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.submitBtn {
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  
+  @include media-breakpoint-up('md') {
+    width: auto;
+    align-self: flex-start; // Кнопка не розтягується на весь рядок на великих екранах
+  }
+}
+
+// Повідомлення про успіх
+.formSuccessMessage {
+  text-align: center;
+  padding: 30px 10px;
+
+  .successIcon {
+    font-size: 60px;
+    color: #28a745; // Зелений успішний колір
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 24px;
+    color: $text-primary;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: $fs-medium;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// --- СТИЛІЗАЦІЯ БЛОКУ СКАЧУВАННЯ (Права частина) ---
+.downloadCard {
+  background-color: $bg-dropdown; // Твій бежевий колір з референсу
+  padding: 40px 30px;
+  border-radius: $radius-md;
+  text-align: center;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba($color-primary, 0.1);
+
+  .docIcon {
+    font-size: 50px;
+    color: $color-primary;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 22px;
+    color: $text-primary;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: $fs-body;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+}
+
+.downloadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: transparent;
+  color: $color-primary !important;
+  border: 2px solid $color-primary !important;
+  width: 100%;
+
+  &:hover {
+    background-color: $color-primary !important;
+    color: white !important;
+  }
+}

@@ -1,0 +1,141 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.contactsContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+.contactsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: 1fr 1.2fr; // Мапа займає трохи більше місця, ніж текст
+  }
+}
+
+// --- ЛІВА ЧАСТИНА (Інформація) ---
+.contactsInfo {
+  h2 {
+    font-size: $fs-h2;
+    color: $text-primary;
+    margin-bottom: 20px;
+  }
+}
+
+.contactsDesc {
+  font-size: $fs-body;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+// Кругла плашка під іконку
+.infoIcon {
+  background-color: rgba($color-primary, 0.1);
+  color: $color-primary;
+  width: 45px;
+  height: 45px;
+  border-radius: $radius-circle;
+  @include flex-center;
+  font-size: 20px;
+  flex-shrink: 0; // Щоб іконка не сплющувалась, якщо тексту багато
+}
+
+.infoText {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 2px; // Вирівнюємо текст по центру іконки
+
+  strong {
+    font-size: $fs-medium;
+    color: $text-primary;
+  }
+
+  span, a {
+    font-size: $fs-body;
+    color: $text-secondary;
+    text-decoration: none;
+    @include transition-base;
+  }
+
+  a:hover {
+    color: $color-primary;
+  }
+}
+
+// --- СОЦМЕРЕЖІ ---
+.contactsSocials {
+  h3 {
+    font-size: $fs-medium;
+    color: $text-primary;
+    margin-bottom: 15px;
+  }
+}
+
+.socialLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  font-weight: $fw-medium;
+  color: white;
+  @include transition-base;
+
+  // Стиль для Facebook
+  &.fb {
+    background-color: #1877F2; 
+    &:hover { 
+      background-color: #166fe5; 
+      transform: translateY(-2px);
+    }
+  }
+
+  // Стиль для Instagram (градієнт)
+  &.ig {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    &:hover { 
+      opacity: 0.9; 
+      transform: translateY(-2px); 
+    }
+  }
+}
+
+// --- ПРАВА ЧАСТИНА (Мапа) ---
+.contactsMap {
+  width: 100%;
+  height: 400px; // Висота для мобілок
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  border: 1px solid $border-color;
+
+  @include media-breakpoint-up('lg') {
+    height: 100%; // На десктопі мапа тягнеться на всю доступну висоту
+    min-height: 500px;
+  }
+}

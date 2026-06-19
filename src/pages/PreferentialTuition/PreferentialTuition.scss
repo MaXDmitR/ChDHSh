@@ -1,0 +1,167 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.tuitionContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+.tuitionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
+  align-items: start;
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: 1fr 1fr; // Ділимо екран навпіл на десктопі
+  }
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: $fs-h2;
+  color: $text-primary;
+  margin-bottom: 20px;
+
+  .sectionIcon {
+    color: $color-primary;
+  }
+}
+
+.tuitionDesc {
+  font-size: $fs-medium;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin-bottom: 30px;
+
+  strong {
+    color: $color-primary;
+  }
+}
+
+// --- ЛІВА ЧАСТИНА (Категорії пільговиків) ---
+.categoriesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.categoryCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background-color: white;
+  padding: 20px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  border-left: 4px solid $color-primary;
+  @include transition-base;
+
+  &:hover {
+    transform: translateX(5px); // Легкий зсув вправо при наведенні
+    box-shadow: $shadow-md;
+  }
+}
+
+.categoryIcon {
+  font-size: 24px;
+  color: $color-primary;
+  background-color: rgba($color-primary, 0.1);
+  padding: 12px;
+  border-radius: $radius-circle;
+  @include flex-center;
+  flex-shrink: 0;
+}
+
+.categoryText {
+  h3 {
+    font-size: $fs-medium;
+    font-weight: $fw-bold;
+    color: $text-primary;
+    margin: 0 0 5px 0;
+  }
+
+  p {
+    font-size: $fs-body;
+    color: $text-secondary;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+// --- ПРАВА ЧАСТИНА (Документи) ---
+.rulesBox {
+  background-color: $bg-light;
+  padding: 30px;
+  border-radius: $radius-md;
+  margin-bottom: 30px;
+
+  p {
+    font-size: $fs-body;
+    color: $text-secondary;
+    margin-bottom: 20px;
+  }
+}
+
+.docsChecklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: $fs-body;
+    color: $text-primary;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      color: $text-primary;
+      font-weight: $fw-bold;
+    }
+  }
+
+  .checkIcon {
+    color: #28a745; // Зелена галочка
+    font-size: 16px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+}
+
+// --- Важливе повідомлення (Дедлайн) ---
+.deadlineAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background-color: rgba($color-primary, 0.05);
+  border: 1px solid rgba($color-primary, 0.2);
+  padding: 20px;
+  border-radius: $radius-md;
+
+  .alertIcon {
+    color: $color-primary;
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alertText {
+    font-size: $fs-body;
+    color: $text-primary;
+    line-height: 1.6;
+
+    strong {
+      color: $color-primary;
+      font-weight: $fw-bold;
+    }
+  }
+}

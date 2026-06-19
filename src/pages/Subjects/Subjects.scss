@@ -1,0 +1,126 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.subjectsContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+// --- СІТКА ПРЕДМЕТІВ ---
+.subjectsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-bottom: 80px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.subjectCard {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  text-align: center;
+  @include transition-base;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-md;
+    border-color: rgba($color-primary, 0.3);
+
+    .subjectIcon {
+      background-color: $color-primary;
+      color: white;
+      transform: scale(1.1);
+    }
+  }
+}
+
+.subjectIcon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 25px;
+  background-color: rgba($color-primary, 0.1);
+  color: $color-primary;
+  border-radius: $radius-circle;
+  @include flex-center;
+  font-size: 30px;
+  @include transition-base;
+}
+
+.subjectTitle {
+  font-size: 20px;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin-bottom: 15px;
+}
+
+.subjectDesc {
+  font-size: $fs-body;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin: 0;
+}
+
+// --- БЛОК ПРОГРАМ МОН ---
+.ministryPrograms {
+  background-color: $bg-light;
+  padding: 40px;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  text-align: center;
+  border-left: 5px solid $color-primary;
+
+  @include media-breakpoint-up('lg') {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    padding: 50px;
+  }
+}
+
+.programsInfo {
+  max-width: 700px;
+
+  h2 {
+    font-size: $fs-h2;
+    color: $text-primary;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: $fs-medium;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin: 0;
+
+    strong {
+      color: $color-primary;
+    }
+  }
+}
+
+.programsAction {
+  flex-shrink: 0;
+}
+
+.externalBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .btnIcon {
+    font-size: 14px;
+  }
+}

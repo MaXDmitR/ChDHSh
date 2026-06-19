@@ -26,8 +26,8 @@ export const menuItems = [
     icon: FaBookOpen, 
     submenu: [
       { title: 'Предмети', url: '/subjects' },
-      // Зовнішнє посилання на сайт МОН
-      { title: 'Типові навчальні програми (МОН)', url: 'https://mon.gov.ua/ua' }, 
+  
+      
     ]
   },
   { 

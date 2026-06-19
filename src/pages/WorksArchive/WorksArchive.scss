@@ -1,0 +1,132 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.archiveContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+// --- Вступний текст ---
+.archiveIntro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+
+  .introIcon {
+    font-size: 50px;
+    color: $color-primary;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  h2 {
+    font-size: $fs-h2;
+    color: $text-primary;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: $fs-medium;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// --- СІТКА АРХІВУ ---
+.archiveGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// --- Картка папки архіву ---
+.archiveCard {
+  background-color: white;
+  border-radius: $radius-md;
+  overflow: hidden; // Щоб фото не вилазило за заокруглені кути
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  text-decoration: none; // Відключаємо підкреслення для посилання
+  @include transition-base;
+
+  &:hover {
+    transform: translateY(-8px); // Ефект підняття
+    box-shadow: $shadow-md;
+    border-color: rgba($color-primary, 0.3);
+
+    .arrowIcon {
+      color: $color-primary; // Стрілочка підсвічується при ховері на всю картку
+      transform: translateX(3px); // Зсув стрілочки
+    }
+  }
+}
+
+// --- Фото-обкладинка ---
+.archiveCardCover {
+  width: 100%;
+  height: 220px; // Фіксована висота
+  position: relative;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Фото заповнює блок
+    @include transition-base;
+  }
+
+  .coverOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+  }
+}
+
+// --- Текстове тіло картки ---
+.archiveCardBody {
+  padding: 25px 20px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: $fw-bold;
+    color: $text-primary;
+    margin: 0 0 15px 0;
+    line-height: 1.3;
+  }
+}
+
+// Рядок метаданих (к-сть робіт + стрілочка)
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid $border-color;
+}
+
+.worksCount {
+  font-size: $fs-body;
+  color: $color-primary;
+  background-color: rgba($color-primary, 0.08);
+  padding: 6px 15px;
+  border-radius: 50rem; // Pill shape
+  font-weight: $fw-bold;
+}
+
+.arrowIcon {
+  font-size: 16px;
+  color: #ccc; // За замовчуванням сіра
+  @include transition-base;
+}

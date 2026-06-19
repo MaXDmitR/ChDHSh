@@ -1,0 +1,105 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.galleryContent {
+  padding: 80px 0;
+  background-color: $bg-body;
+}
+
+// --- Сітка зображень ---
+.galleryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @include media-breakpoint-up('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include media-breakpoint-up('xl') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// --- Окремий елемент галереї ---
+.galleryItem {
+  position: relative;
+  aspect-ratio: 1 / 1; // Робимо картинки ідеально квадратними для акуратної сітки
+  border-radius: $radius-md;
+  overflow: hidden;
+  cursor: pointer; // Курсор-лупа або рука
+  box-shadow: $shadow-sm;
+  @include transition-base;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Щоб картинка заповнювала квадрат без спотворень
+    @include transition-base;
+  }
+
+  // Темна плівка, що з'являється при наведенні
+  .galleryOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0; // За замовчуванням прихована
+    @include transition-base;
+
+    h4 {
+      color: white;
+      margin: 0 0 5px 0;
+      font-size: $fs-medium;
+      font-weight: $fw-bold;
+      transform: translateY(10px); // Зсув для анімації виїзду тексту
+      @include transition-base;
+    }
+
+    span {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: $fs-small;
+      transform: translateY(10px);
+      @include transition-base;
+      transition-delay: 0.05s; // Текст виїжджає один за одним
+    }
+  }
+
+  // --- ЕФЕКТИ ПРИ НАВЕДЕННІ (HOVER) ---
+  &:hover {
+    box-shadow: $shadow-md;
+    
+    img {
+      transform: scale(1.05); // Картинка трохи збільшується
+    }
+
+    .galleryOverlay {
+      opacity: 1; // Проявляється градієнт
+      
+      h4, span {
+        transform: translateY(0); // Текст виїжджає на своє місце
+      }
+    }
+  }
+}
+
+// Порожня галерея
+.emptyGallery {
+  text-align: center;
+  padding: 60px 0;
+  
+  p {
+    font-size: $fs-medium;
+    color: $text-secondary;
+  }
+}

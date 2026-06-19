@@ -1,0 +1,197 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+.footer {
+  // Використовуємо темний фон для контрасту
+  background-color: #1a1a1a; 
+  color: rgba(255, 255, 255, 0.7);
+  padding-top: 60px;
+  margin-top: auto; // Притискаємо футер до самого низу сторінки
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: 1.5fr 1fr 1fr; // Перша колонка (текст) трохи ширша
+  }
+}
+
+// --- Колонка 1: Логотип ---
+.footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.footerLogoImg {
+  height: 55px;
+  background-color: white; // Біла підложка, щоб лого не зливалось з темним фоном
+  border-radius: 4px;
+  padding: 3px;
+}
+
+.footerLogoText {
+  display: flex;
+  flex-direction: column;
+
+  .footerLogoSub {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .footerLogoTitle {
+    font-size: 22px;
+    font-weight: $fw-bold;
+    color: white;
+    line-height: 1.1;
+  }
+}
+
+.footerDesc {
+  font-size: $fs-body;
+  line-height: 1.6;
+  max-width: 350px;
+}
+
+// --- Заголовки колонок ---
+.footerColTitle {
+  font-size: 18px;
+  font-weight: $fw-bold;
+  color: white;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 12px;
+
+  // Декоративна синя лінія під заголовком
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: $color-primary; 
+  }
+}
+
+// --- Колонка 2: Посилання ---
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 12px;
+
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: $fs-body;
+      display: inline-block;
+      @include transition-base;
+
+      &:hover {
+        color: white;
+        transform: translateX(5px); // Легкий зсув вправо при наведенні
+      }
+    }
+  }
+}
+
+// --- Колонка 3: Контакти ---
+.footerContacts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 18px;
+    font-size: $fs-body;
+
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      @include transition-base;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  .footerPhones {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .footerIcon {
+    color: $color-primary; // Фірмовий синій
+    font-size: 16px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+}
+
+// --- Нижній рядок (Copyright) ---
+.footerBottom {
+  background-color: #111111; // Ще темніший фон
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footerBottomContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @include media-breakpoint-up('md') {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footerSocials {
+  display: flex;
+  gap: 15px;
+
+  a {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.05);
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-circle;
+    @include flex-center;
+    @include transition-base;
+
+    &:hover {
+      color: white;
+      background-color: $color-primary; // Заливається синім при наведенні
+      transform: translateY(-3px);
+    }
+  }
+}

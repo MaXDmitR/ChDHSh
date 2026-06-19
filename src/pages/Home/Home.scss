@@ -1,0 +1,204 @@
+// src/pages/Home/Home.scss
+@use '@/styles/helpers' as *;
+@use '@/styles/variables' as *;
+
+// Загальні класи для заголовків секцій сторінки
+.homeSectionTitle {
+  font-size: $fs-h2; // Твоя змінна 28px
+  font-weight: $fw-bold;
+  color: $color-primary;
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+// Загальні стилі кнопок (винесемо сюди, щоб було красиво)
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: $fs-body; // 14px
+  font-weight: $fw-medium;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  text-align: center;
+  @include transition-base;
+
+  &Primary {
+    background-color: $color-primary;
+    color: white;
+    &:hover {
+      background-color: $color-primary-hover;
+      transform: translateY(-2px);
+    }
+  }
+
+  &Secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    &:hover {
+      background-color: white;
+      color: $color-primary;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ==========================================
+// 1. HERO СЕКЦІЯ (Банер)
+// ==========================================
+.homeHero {
+  // Використовуємо атмосферне фонове фото художньої тематики
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop') no-repeat center center/cover;
+  padding: 80px 0;
+  color: white;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+
+  @include media-breakpoint-up('lg') {
+    padding: 120px 0;
+  }
+}
+
+.homeHeroContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.homeHeroTitle {
+  font-size: $fs-h2; // На мобілках трохи менший
+  font-weight: $fw-bold;
+  line-height: 1.2;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-up('lg') {
+    font-size: $fs-h1; // На десктопі твоя змінна 42px
+  }
+}
+
+.homeHeroText {
+  font-size: $fs-medium; // 16px
+  line-height: 1.6;
+  margin-bottom: 40px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.homeHeroButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+
+  @include media-breakpoint-up('sm') {
+    flex-direction: row;
+  }
+}
+
+// ==========================================
+// 2. СЕКЦІЯ НАПРЯМКІВ (Картки)
+// ==========================================
+.homeDirections {
+  padding: 60px 0;
+  background-color: $bg-light;
+}
+
+.homeDirectionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+
+  @include media-breakpoint-up('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.directionCard {
+  background-color: white;
+  padding: 30px 20px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  text-align: center;
+  @include transition-base;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.directionCardIcon {
+  font-size: 40px;
+  color: $color-primary;
+  margin-bottom: 20px;
+}
+
+.directionCardTitle {
+  font-size: $fs-medium; // 16px
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin-bottom: 15px;
+}
+
+.directionCardText {
+  font-size: $fs-body; // 14px
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+// ==========================================
+// 3. ПРЕВ'Ю ГАЛЕРЕЇ (Плитка зображень)
+// ==========================================
+.homeGalleryPreview {
+  padding: 60px 0;
+  background-color: white;
+}
+
+.homeGalleryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+
+  @include media-breakpoint-up('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.galleryPreviewItem {
+  height: 250px;
+  overflow: hidden;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  
+  // Мистецький стиль — ефект паспарту/рамки
+  border: 8px solid $bg-dropdown; 
+  @include transition-base;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: $shadow-md;
+    border-color: $color-primary;
+  }
+}
+
+.galleryPreviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.homeGalleryCenterBtn {
+  text-align: center;
+}
