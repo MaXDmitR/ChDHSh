@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { client, urlFor } from '@/sanity'; // Підключаємо Sanity
+import { client, urlFor } from '@/sanity'; 
 import './AboutSchool.scss';
 
 const AboutSchool = () => {
@@ -7,8 +7,6 @@ const AboutSchool = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // GROQ-запит: дістаємо документ aboutPage. 
-    // [0] в кінці означає, що нам потрібен один об'єкт, а не масив.
     client.fetch('*[_type == "aboutPage"][0]')
       .then((data) => {
         setAboutData(data);
@@ -24,38 +22,63 @@ const AboutSchool = () => {
     return <div style={{ textAlign: 'center', padding: '100px 0' }}>Завантаження інформації...</div>;
   }
 
-  // Захист, якщо в адмінці ще не створили документ
   if (!aboutData) {
     return <div style={{ textAlign: 'center', padding: '100px 0' }}>Інформація оновлюється</div>;
   }
 
+  // МАНІПУЛЯЦІЯ З ТЕКСТОМ: Парсимо абзаци та марковані списки
+  const renderFormattedText = (rawText) => {
+    if (!rawText) return null;
+
+    const lines = rawText.split('\n');
+    const elements = [];
+    let currentList = [];
+
+    lines.forEach((line, index) => {
+      const trimmedLine = line.trim();
+      if (!trimmedLine) return;
+
+      // Перевіряємо, чи рядок починається з буліта • або дефісу -
+      if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
+        // Очищаємо сам маркер, залишаємо тільки текст
+        const itemText = trimmedLine.replace(/^[•-]\s*/, '');
+        currentList.push(<li key={`li-${index}`}>{itemText}</li>);
+      } else {
+        // Якщо перед цим накопичилися елементи списку — виводимо їх
+        if (currentList.length > 0) {
+          elements.push(<ul key={`ul-${index}`} className="aboutCustomList">{currentList}</ul>);
+          currentList = [];
+        }
+        // Виводимо звичайний абзац
+        elements.push(<p key={`p-${index}`}>{trimmedLine}</p>);
+      }
+    });
+
+    // Якщо список був у самому кінці тексту
+    if (currentList.length > 0) {
+      elements.push(<ul key="ul-final" className="aboutCustomList">{currentList}</ul>);
+    }
+
+    return elements;
+  };
+
   return (
     <div className="aboutPage">
-      {/* Універсальна шапка сторінки */}
       <section className="pageHeader">
         <div className="container">
           <h1 className="pageTitle">Про школу</h1>
-          <p className="pageSubtitle">Історія, місія та цінності нашого навчального закладу</p>
+          <p className="pageSubtitle">Історія та цінності нашого навчального закладу</p>
         </div>
       </section>
 
-      {/* Основний контент */}
       <section className="aboutContent">
         <div className="container aboutGrid">
           <div className="aboutText">
-            {/* Динамічний заголовок */}
             <h2>{aboutData.heading}</h2>
             
-            {/* Розбиваємо текст з Sanity на абзаци */}
-            {aboutData.text && aboutData.text.split('\n').map((paragraph, index) => {
-              // Якщо абзац не порожній (після спліту), рендеримо його в тег <p>
-              if (paragraph.trim() !== '') {
-                return <p key={index}>{paragraph}</p>;
-              }
-              return null;
-            })}
+            {/* Рендеримо наш розумно відформатований текст */}
+            {renderFormattedText(aboutData.text)}
 
-            {/* Блок з динамічними цифрами */}
             <div className="aboutStats">
               <div className="statItem">
                 <span className="statNumber">{aboutData.yearsHistory}</span>
@@ -69,11 +92,14 @@ const AboutSchool = () => {
                 <span className="statNumber">{aboutData.teachersCount}</span>
                 <span className="statLabel">Професійних викладачів</span>
               </div>
+              <div className="statItem">
+                <span className="statNumber">{aboutData.studentsCount}</span>
+                <span className="statLabel">Учнів сьогодні</span>
+              </div>
             </div>
           </div>
 
           <div className="aboutImageWrapper">
-            {/* Динамічне фото */}
             {aboutData.mainImage && (
               <img 
                 src={urlFor(aboutData.mainImage).url()} 

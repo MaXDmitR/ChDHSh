@@ -92,7 +92,7 @@ export const Header = () => {
             </Link>
             <div className="headerLogoText">
               <span className="headerLogoSub">ім.Данила Нарбута</span>
-              <h1 className="headerLogoTitle">ЧЕРКАСЬКА ДЕРЖАВНА ХУДОЖНЯ ШКОЛА</h1>
+              <h1 className="headerLogoTitle">ЧЕРКАСЬКА ДИТЯЧА ХУДОЖНЯ ШКОЛА</h1>
             </div>
           </div>
 

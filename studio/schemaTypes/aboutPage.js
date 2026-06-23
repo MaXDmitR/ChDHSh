@@ -28,19 +28,26 @@ export default {
     },
     {
       name: 'yearsHistory',
-      title: 'Років історії (напр. "40+")',
+      title: 'Років історії (напр. "48")',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'graduatesCount',
-      title: 'Кількість випускників (напр. "1000+")',
+      title: 'Кількість випускників (напр. "2250+")',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'teachersCount',
-      title: 'Кількість викладачів (напр. "15")',
+      title: 'Кількість викладачів (напр. "22")',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    
+    {
+      name: 'studentsCount',
+      title: 'Учнів сьогодні (напр. "506")',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
