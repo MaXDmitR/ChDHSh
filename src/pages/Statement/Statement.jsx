@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaDownload, FaFileAlt, FaCheckCircle, FaSpinner } from 'react-icons/fa';
-import { client } from '@/sanity'; 
+import { client } from '@/sanity';
 import emailjs from '@emailjs/browser'; // Підключаємо EmailJS
 import './Statement.scss';
 
@@ -11,7 +11,7 @@ const Statement = () => {
     childBirthDate: '',
     address: '',
     phone: '',
-    groupType: 'first-grade' 
+    groupType: 'first-grade'
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,7 +24,7 @@ const Statement = () => {
       notificationEmail,
       "fileUrl": statementFile.asset->url
     }`;
-    
+
     client.fetch(query)
       .then((data) => setDocumentData(data))
       .catch(console.error);
@@ -53,7 +53,7 @@ const Statement = () => {
       group_type: formData.groupType,
       phone: formData.phone,
       address: formData.address,
-      to_email: targetEmail 
+      to_email: targetEmail
     };
 
     // ВІДПРАВКА ЛИСТА (Заміни 'YOUR_...' на свої реальні ключі!)
@@ -90,7 +90,7 @@ const Statement = () => {
 
       <section className="statementContent">
         <div className="container statementGrid">
-          
+
           <div className="statementFormWrapper">
             <h2>Онлайн-форма попередньої реєстрації</h2>
             <p className="formNotice">
@@ -142,6 +142,20 @@ const Statement = () => {
                   <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} required placeholder="м. Черкаси, вул. Творча, буд. 1, кв. 5" />
                 </div>
 
+                <div className="formGroup checkboxGroup" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: '20px' }}>
+                  <input
+                    type="checkbox"
+                    id="dataConsent"
+                    name="dataConsent"
+                    required
+                    style={{ marginTop: '5px', cursor: 'pointer' }}
+                  />
+                  <label htmlFor="dataConsent" style={{ fontSize: '13px', color: '#666', lineHeight: '1.4', cursor: 'pointer' }}>
+                    Я даю згоду на обробку моїх персональних даних та персональних даних моєї дитини
+                    відповідно до Закону України «Про захист персональних даних» з метою організації вступного процесу.
+                  </label>
+                </div>
+
                 <button type="submit" className="btn btnPrimary submitBtn" disabled={isSending}>
                   {isSending ? 'Відправлення...' : 'Надіслати заявку'}
                 </button>
@@ -154,7 +168,7 @@ const Statement = () => {
               <FaFileAlt className="docIcon" />
               <h3>Паперовий бланк заяви</h3>
               <p>Якщо ви віддаєте перевагу класичному способу, ви можете завантажити офіційний зразок заяви, роздрукувати його, заповнити від руки та принести особисто до канцелярії художньої школи.</p>
-              
+
               {documentData?.fileUrl ? (
                 <a href={documentData.fileUrl} target="_blank" rel="noreferrer" className="btn btnSecondary downloadBtn" download>
                   <FaDownload /> {documentData.fileLabel || 'Завантажити бланк'}

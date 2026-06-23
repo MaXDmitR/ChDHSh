@@ -39,7 +39,7 @@ const Footer = () => {
             <h4 className="footerColTitle">Корисні посилання</h4>
             <ul className="footerLinks">
               <li><Link to="/about">Про школу</Link></li>
-              <li><Link to="/admission/rules">Правила прийому</Link></li>
+              <li><Link to="/admissionrules">Правила прийому</Link></li>
               <li><Link to="/subjects">Навчальні предмети</Link></li>
               <li><Link to="/teachers">Наші викладачі</Link></li>
               <li><Link to="/works-archive">Архів робіт</Link></li>
