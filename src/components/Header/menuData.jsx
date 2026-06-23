@@ -9,7 +9,7 @@ export const menuItems = [
       { title: 'Про школу', url: '/about' },
       { title: 'Викладачі', url: '/teachers' },
       { title: 'Контакти (телефон, email, мапа)', url: '/contacts' },
-      { title: 'Ми у Facebook', url: 'https://www.facebook.com/' }, // Тут вставиш реальне посилання
+      
     ]
   },
   { 

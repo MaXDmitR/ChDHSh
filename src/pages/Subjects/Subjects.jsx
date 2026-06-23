@@ -1,50 +1,30 @@
-import { FaPencilAlt, FaPalette, FaShapes, FaMonument, FaLandmark, FaCut, FaExternalLinkAlt } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+// Імпортуємо ВСІ іконки з fa, щоб мати змогу діставати їх за назвою
+import * as FaIcons from 'react-icons/fa';
+import { client } from '@/sanity'; 
 import './Subjects.scss';
 
 const Subjects = () => {
-  // Масив навчальних предметів
-  const subjectsData = [
-    {
-      id: 1,
-      icon: <FaPencilAlt />,
-      title: "Академічний рисунок",
-      desc: "Основа образотворчого мистецтва. Вивчення пропорцій, перспективи, світлотіні та об'єму за допомогою графічних матеріалів (олівець, вугілля, сангіна)."
-    },
-    {
-      id: 2,
-      icon: <FaPalette />,
-      title: "Живопис",
-      desc: "Робота з кольором, вивчення його властивостей та впливу. Опанування технік роботи аквареллю, гуашшю та акрилом на різних форматах."
-    },
-    {
-      id: 3,
-      icon: <FaShapes />,
-      title: "Композиція",
-      desc: "Вміння організувати простір картини, виділити головне, створити гармонійний сюжет та передати настрій чи ідею."
-    },
-    {
-      id: 4,
-      icon: <FaMonument />,
-      title: "Скульптура",
-      desc: "Розвиток просторового мислення та відчуття форми. Практична робота з пластиліном, глиною та гіпсом: від простих геометричних тіл до портретів."
-    },
-    {
-      id: 5,
-      icon: <FaCut />,
-      title: "Декоративно-прикладне мистецтво",
-      desc: "Вивчення традиційних українських технік: петриківський розпис, писанкарство, витинанка, основи гончарства та ткацтва."
-    },
-    {
-      id: 6,
-      icon: <FaLandmark />,
-      title: "Історія мистецтв",
-      desc: "Теоретичний курс, що знайомить учнів зі світовими шедеврами, епохами, стилями та видатними художниками від античності до сучасності."
-    }
-  ];
+  const [subjects, setSubjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Витягуємо предмети з бази
+    const query = '*[_type == "subject"] | order(order asc)';
+    
+    client.fetch(query)
+      .then((data) => {
+        setSubjects(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Помилка завантаження предметів:', error);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <div className="subjectsPage">
-      {/* Універсальна шапка */}
       <section className="pageHeader">
         <div className="container">
           <h1 className="pageTitle">Навчальні предмети</h1>
@@ -55,18 +35,29 @@ const Subjects = () => {
       <section className="subjectsContent">
         <div className="container">
           
-          {/* Сітка предметів */}
-          <div className="subjectsGrid">
-            {subjectsData.map(subject => (
-              <div key={subject.id} className="subjectCard">
-                <div className="subjectIcon">{subject.icon}</div>
-                <h3 className="subjectTitle">{subject.title}</h3>
-                <p className="subjectDesc">{subject.desc}</p>
-              </div>
-            ))}
-          </div>
+          {isLoading ? (
+            <div style={{ textAlign: 'center', padding: '50px 0' }}>Завантаження програм...</div>
+          ) : (
+            <div className="subjectsGrid">
+              {subjects.map(subject => {
+                // МАГІЯ: Дістаємо потрібну іконку з об'єкта FaIcons за її назвою (яка прийшла з Sanity)
+                // Якщо раптом іконку не знайдено, ставимо запасну (FaBookOpen)
+                const IconComponent = FaIcons[subject.iconName] || FaIcons.FaBookOpen;
 
-          {/* Блок із посиланням на програми МОН */}
+                return (
+                  <div key={subject._id} className="subjectCard">
+                    <div className="subjectIcon">
+                      {/* Рендеримо векторну іконку! */}
+                      <IconComponent />
+                    </div>
+                    <h3 className="subjectTitle">{subject.title}</h3>
+                    <p className="subjectDesc">{subject.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           <div className="ministryPrograms">
             <div className="programsInfo">
               <h2>Типові навчальні програми</h2>
@@ -84,7 +75,7 @@ const Subjects = () => {
                 className="btn btnPrimary externalBtn"
               >
                 <span>Переглянути на сайті Міністерства</span>
-                <FaExternalLinkAlt className="btnIcon" />
+                <FaIcons.FaExternalLinkAlt className="btnIcon" />
               </a>
             </div>
           </div>

@@ -24,6 +24,8 @@ import Gallery from '@/pages/Gallery/Gallery'
 
 import Footer from '@/components/Footer/Footer'
 
+import TeacherProfile from '@/pages/Teachers/TeacherProfile'
+
 
 
 const App = () => {
@@ -35,6 +37,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutSchool />} />
           <Route path="/teachers" element={<Teachers />} />
+          <Route path="/teachers/:id" element={<TeacherProfile />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/works-archive" element={<WorksArchive />} />

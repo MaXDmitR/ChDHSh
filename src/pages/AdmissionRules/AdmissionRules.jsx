@@ -1,36 +1,37 @@
-import { FaFileSignature, FaPalette, FaUserCheck, FaFileAlt, FaExclamationCircle } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaFileAlt, FaExclamationCircle } from 'react-icons/fa';
+import * as FaIcons from 'react-icons/fa'; // Імпортуємо всі іконки для динамічних кроків
 import { Link } from 'react-router-dom';
+import { client } from '@/sanity'; // Підключаємо Sanity
 import './AdmissionRules.scss';
 
 const AdmissionRules = () => {
-  // Дані для кроків вступу
-  const admissionSteps = [
-    {
-      id: 1,
-      icon: <FaFileSignature />,
-      title: "Подання заяви",
-      date: "15 травня - 15 червня",
-      text: "Батьки або опікуни дитини подають пакет необхідних документів до канцелярії школи або надсилають електронною поштою."
-    },
-    {
-      id: 2,
-      icon: <FaPalette />,
-      title: "Творчий конкурс",
-      date: "20 червня - 25 червня",
-      text: "Дитина виконує творче завдання в класі (рисунок, живопис або композиція). Матеріали для іспиту потрібно мати з собою."
-    },
-    {
-      id: 3,
-      icon: <FaUserCheck />,
-      title: "Зарахування",
-      date: "до 25 серпня",
-      text: "Оприлюднення списків зарахованих учнів на стенді школи та підписання договорів про навчання."
-    }
-  ];
+  const [rulesData, setRulesData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Дістаємо єдиний документ правил
+    client.fetch('*[_type == "admissionRulesPage"][0]')
+      .then((data) => {
+        setRulesData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Помилка завантаження правил прийому:', error);
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <div style={{ textAlign: 'center', padding: '100px 0' }}>Завантаження правил...</div>;
+  }
+
+  if (!rulesData) {
+    return <div style={{ textAlign: 'center', padding: '100px 0' }}>Інформація оновлюється</div>;
+  }
 
   return (
     <div className="admissionPage">
-      {/* Універсальна шапка */}
       <section className="pageHeader">
         <div className="container">
           <h1 className="pageTitle">Правила прийому</h1>
@@ -41,59 +42,61 @@ const AdmissionRules = () => {
       <section className="admissionContent">
         <div className="container">
           
-          {/* Блок з категоріями віку */}
           <div className="admissionIntro">
-            
-            <p>
-              До 1-го класу художньої школи зараховуються діти віком <strong>9-11 років</strong>, 
-              які виявили здібності до образотворчого мистецтва та успішно склали вступні іспити. 
-              Для дітей 6-8 років діють підготовчі групи (елементарний підрівень).
-            </p>
+            <p>{rulesData.introText}</p>
           </div>
 
-          {/* Кроки вступу (Таймлайн) */}
           <div className="admissionStepsSection">
-            <h2>Етапи вступної кампанії 2026</h2>
-            <div className="stepsGrid">
-              {admissionSteps.map((step) => (
-                <div key={step.id} className="stepCard">
-                  <div className="stepHeader">
-                    <div className="stepIcon">{step.icon}</div>
-                    <span className="stepNumber">Крок {step.id}</span>
-                  </div>
-                  <h3 className="stepTitle">{step.title}</h3>
-                  <div className="stepDate">{step.date}</div>
-                  <p className="stepText">{step.text}</p>
-                </div>
-              ))}
-            </div>
+            <h2>Етапи вступної кампанії {rulesData.campaignYear}</h2>
+            
+            {rulesData.steps && rulesData.steps.length > 0 && (
+              <div className="stepsGrid">
+                {rulesData.steps.map((step, index) => {
+                  // Динамічно дістаємо іконку
+                  const IconComponent = FaIcons[step.iconName] || FaIcons.FaFileSignature;
+                  
+                  return (
+                    <div key={index} className="stepCard">
+                      <div className="stepHeader">
+                        <div className="stepIcon"><IconComponent /></div>
+                        {/* Використовуємо index + 1 для нумерації кроків */}
+                        <span className="stepNumber">Крок {index + 1}</span>
+                      </div>
+                      <h3 className="stepTitle">{step.title}</h3>
+                      <div className="stepDate">{step.date}</div>
+                      <p className="stepText">{step.text}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {/* Необхідні документи */}
           <div className="admissionDocsSection">
             <div className="docsBox">
               <h2><FaFileAlt className="titleIcon" /> Перелік необхідних документів</h2>
-              <ul className="docsList">
-                <li>Заява на ім'я директора школи встановленого зразка (заповнюється батьками).</li>
-                <li>Копія свідоцтва про народження дитини.</li>
-                <li>Медична довідка про відсутність протипоказань для навчання в художній школі.</li>
-                <li>Дві фотокартки розміром 3х4 см.</li>
-                <li>Папка зі швидкозшивачем та 5 файлів для особової справи.</li>
-              </ul>
+              
+              {rulesData.documentsList && rulesData.documentsList.length > 0 && (
+                <ul className="docsList">
+                  {rulesData.documentsList.map((docItem, index) => (
+                    <li key={index}>{docItem}</li>
+                  ))}
+                </ul>
+              )}
               
               <div className="docsAction">
-                <Link to="/statement" className="btn btnPrimary">Завантажити бланк заяви</Link>
+                <Link to="/statement" className="btn btnPrimary">Перейти до подачі заяви</Link>
               </div>
             </div>
 
-            {/* Важливе зауваження */}
-            <div className="importantNotice">
-              <FaExclamationCircle className="noticeIcon" />
-              <div>
-                <strong>Зверніть увагу:</strong> Оригінал свідоцтва про народження обов'язково 
-                пред'являється батьками особисто під час подання копій документів.
+            {rulesData.importantNotice && (
+              <div className="importantNotice">
+                <FaExclamationCircle className="noticeIcon" />
+                <div>
+                  <strong>Зверніть увагу:</strong> {rulesData.importantNotice}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
         </div>

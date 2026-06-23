@@ -1,23 +1,51 @@
-import { useState, useEffect } from 'react'; // Додали useEffect
-import { useLocation, Link } from 'react-router-dom'; // Додали useLocation
+import { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaShoppingCart, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
+import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { menuItems } from './menuData';
 import logo from '../../assets/logo.webp'; 
+import { client } from '@/sanity'; 
 import './Header.scss';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
   
-  // Отримуємо поточний шлях (URL)
+  // Стейти для даних з Sanity
+  const [latestYears, setLatestYears] = useState([]);
+  const [settings, setSettings] = useState(null);
+  
   const location = useLocation();
 
-  // МАГІЯ: Цей ефект спрацьовує щоразу, коли змінюється URL (location)
   useEffect(() => {
-    setIsMenuOpen(false);       // Ховаємо бокову панель
-    setOpenSubmenuIndex(null);  // Закриваємо всі відкриті акордеони
+    setIsMenuOpen(false);       
+    setOpenSubmenuIndex(null);  
   }, [location]);
+
+  // Паралельне завантаження років та контактів
+  useEffect(() => {
+    const fetchHeaderData = async () => {
+      try {
+        const yearsQuery = `array::unique(*[_type == "artwork"].year) | order(@ desc)`;
+        const settingsQuery = '*[_type == "siteSettings"][0]';
+        
+        // Promise.all дозволяє виконати обидва запити одночасно для швидкості
+        const [yearsData, settingsData] = await Promise.all([
+          client.fetch(yearsQuery),
+          client.fetch(settingsQuery)
+        ]);
+
+        if (yearsData && yearsData.length > 0) {
+          setLatestYears(yearsData.slice(0, 2));
+        }
+        setSettings(settingsData);
+      } catch (error) {
+        console.error("Помилка завантаження даних хедера:", error);
+      }
+    };
+
+    fetchHeaderData();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,34 +56,39 @@ export const Header = () => {
     setOpenSubmenuIndex(openSubmenuIndex === index ? null : index);
   };
 
+  // Допоміжна функція для очищення номера
+  const cleanPhone = (phone) => phone ? phone.replace(/[^\d+]/g, '') : '';
+
   return (
     <header className="header">
-      {/* --- ВЕРХНЯ ПАНЕЛЬ (Top Bar) - Скріншот image_0.png --- */}
+      {/* --- ВЕРХНЯ ПАНЕЛЬ --- */}
       <div className="headerTop">
         <div className="container headerTopContainer">
           <div className="headerInfo">
-            <a href="tel:0678439767" className="headerPhone">
-              <FaPhoneAlt /> 093 736 49 97
-            </a>
+            {settings?.phoneMain && (
+              <a href={`tel:${cleanPhone(settings.phoneMain)}`} className="headerPhone">
+                <FaPhoneAlt /> {settings.phoneMain}
+              </a>
+            )}
           </div>
           
           <div className="headerActions">
             <div className="headerSocials">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaEnvelope /></a>
+              {settings?.facebookUrl && <a href={settings.facebookUrl} target="_blank" rel="noreferrer"><FaFacebookF /></a>}
+              {settings?.instagramUrl && <a href={settings.instagramUrl} target="_blank" rel="noreferrer"><FaInstagram /></a>}
+              {settings?.email && <a href={`mailto:${settings.email}`}><FaEnvelope /></a>}
             </div>
           </div>
         </div>
       </div>
 
-      {/* --- ОСНОВНИЙ ХЕДЕР (Лого + Меню + Гамбургер) --- */}
+      {/* --- ОСНОВНИЙ ХЕДЕР --- */}
       <div className="headerMain">
         <div className="container headerMainContainer">
-          {/* Блок логотипу */}
+          
           <div className="headerLogoBlock">
             <Link to='/'>
-            <img src={logo} alt="ЧДХШ ім.Данила Нарбута" className="headerLogoImg" />
+              <img src={logo} alt="ЧДХШ ім.Данила Нарбута" className="headerLogoImg" />
             </Link>
             <div className="headerLogoText">
               <span className="headerLogoSub">ім.Данила Нарбута</span>
@@ -63,18 +96,28 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Кнопка Гамбургера (показується тільки на мобільних) */}
           <button className="headerHamburger" onClick={toggleMenu}>
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
 
           {/* --- НАВІГАЦІЯ --- */}
-          {/* Клас headerNavMobileOpen додається, коли меню відкрите (для анімації виїзду) */}
           <nav className={clsx("headerNav", isMenuOpen && "headerNavMobileOpen")}>
             <ul className="headerMenu">
               {menuItems.map((item, index) => {
                 const Icon = item.icon;
-                const hasSubmenu = item.submenu && item.submenu.length > 0;
+                
+                let activeSubmenu = item.submenu;
+                if (item.title === 'ВІРТУАЛЬНА ДИТЯЧА ГАЛЕРЕЯ' && latestYears.length > 0) {
+                  activeSubmenu = [
+                    ...latestYears.map(year => ({ 
+                      title: `${year} навчальний рік`, 
+                      url: `/gallery/${year}` 
+                    })),
+                    { title: 'Архів робіт', url: '/works-archive' }
+                  ];
+                }
+
+                const hasSubmenu = activeSubmenu && activeSubmenu.length > 0;
                 const isSubmenuOpen = openSubmenuIndex === index;
 
                 return (
@@ -82,17 +125,14 @@ export const Header = () => {
                     key={index} 
                     className={clsx("headerMenuItem", hasSubmenu && "headerMenuItemHasSubmenu")}
                   >
-                    {/* Посилання або кнопка для відкриття сабменю */}
                     <div className="headerMenuLinkWrapper">
                       <Link to={item.url || '#'} className="headerMenuLink">
-                        {/* Місце для іконок (заглушки) */}
                         <div className="headerMenuIconPlaceholder">
                            <Icon />
                         </div>
                         <span className="headerMenuTitle">{item.title}</span>
                       </Link>
                       
-                      {/* Стрілочка для мобільного сабменю */}
                       {hasSubmenu && (
                         <button 
                           className={clsx("headerSubmenuToggle", isSubmenuOpen && "headerSubmenuToggleActive")}
@@ -103,10 +143,9 @@ export const Header = () => {
                       )}
                     </div>
 
-                    {/* --- ВИПАДАЮЧИЙ СПИСОК (Submenu) --- */}
                     {hasSubmenu && (
                       <ul className={clsx("headerSubmenu", isSubmenuOpen && "headerSubmenuMobileOpen")}>
-                        {item.submenu.map((subitem, subIndex) => (
+                        {activeSubmenu.map((subitem, subIndex) => (
                           <li key={subIndex} className="headerSubmenuItem">
                             <Link to={subitem.url} className="headerSubmenuLink">
                               {subitem.title}
@@ -120,15 +159,19 @@ export const Header = () => {
               })}
             </ul>
           
-            {/* Мобільні контакти/соціалки (внизу виїзного меню, як на image_3.png) */}
+            {/* Мобільні контакти */}
             <div className="headerMobileExtra">
                <div className="headerMobileInfo">
-                  <Link to="tel:0678439767"><FaPhoneAlt /> 067 843-97-67</Link>
+                  {settings?.phoneMain && (
+                    <a href={`tel:${cleanPhone(settings.phoneMain)}`}>
+                      <FaPhoneAlt /> {settings.phoneMain}
+                    </a>
+                  )}
                </div>
                <div className="headerMobileActions">
-                  <Link to="#"><FaFacebookF /></Link>
-                  <Link to="#"><FaInstagram /></Link>
-                  <Link to="#"><FaEnvelope /></Link>
+                  {settings?.facebookUrl && <a href={settings.facebookUrl} target="_blank" rel="noreferrer"><FaFacebookF /></a>}
+                  {settings?.instagramUrl && <a href={settings.instagramUrl} target="_blank" rel="noreferrer"><FaInstagram /></a>}
+                  {settings?.email && <a href={`mailto:${settings.email}`}><FaEnvelope /></a>}
                </div>
             </div>
           </nav>
@@ -138,4 +181,4 @@ export const Header = () => {
   );
 };
 
-export default Header
+export default Header;

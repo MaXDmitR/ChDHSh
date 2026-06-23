@@ -1,40 +1,52 @@
-// src/pages/Home/Home.jsx
-import { Link } from 'react-router-dom'
-import { FaPalette, FaCube, FaBrush, FaBookOpen } from 'react-icons/fa'
-import './Home.scss'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import * as FaIcons from 'react-icons/fa'; // Імпортуємо всі іконки, як робили в Предметах
+import { client, urlFor } from '@/sanity'; // Підключаємо Sanity
+import './Home.scss';
 
 export const Home = () => {
-  // Дані для карток напрямків, щоб код був чистим
-  const directions = [
-    {
-      icon: <FaPalette />,
-      title: 'Живопис та графіка',
-      text: 'Вивчення основ композиції, кольорознавства, академічного рисунку та роботи з різними художніми матеріалами.'
-    },
-    {
-      icon: <FaCube />,
-      title: 'Скульптура та ліплення',
-      text: 'Розвиток просторового та об\'ємного мислення, робота з глиною, пластиліном та створення малих форм.'
-    },
-    {
-      icon: <FaBrush />,
-      title: 'Декоративне мистецтво',
-      text: 'Вивчення традиційних українських технік: розпис, писанкарство, витинанка та основи сучасного дизайну.'
-    },
-    {
-      icon: <FaBookOpen />,
-      title: 'Історія мистецтв',
-      text: 'Захопливі лекції про світові шедеври, епохи та видатних художників, що формують кругозір дитини.'
-    }
-  ];
+  // Стейти для наших даних
+  const [subjects, setSubjects] = useState([]);
+  const [recentArtworks, setRecentArtworks] = useState([]);
+  const [latestYear, setLatestYear] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Масив лінків на красиві картинки з Unsplash, щоб наповнити галерею
-  const sampleImages = [
-    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=500&auto=format&fit=crop'
-  ];
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        // 1. Беремо перші 4 предмети, відсортовані за порядковим номером
+        const subjectsQuery = '*[_type == "subject"] | order(order asc)[0...4]';
+        
+        // 2. Беремо 4 найсвіжіші дитячі роботи (неважливо з якого року)
+        const artworksQuery = '*[_type == "artwork"] | order(_createdAt desc)[0...4]';
+        
+        // 3. Дізнаємося найсвіжіший рік для кнопки в шапці
+        const yearQuery = 'array::unique(*[_type == "artwork"].year) | order(@ desc)[0]';
+
+        // Запускаємо всі три запити паралельно!
+        const [fetchedSubjects, fetchedArtworks, fetchedYear] = await Promise.all([
+          client.fetch(subjectsQuery),
+          client.fetch(artworksQuery),
+          client.fetch(yearQuery)
+        ]);
+
+        setSubjects(fetchedSubjects);
+        setRecentArtworks(fetchedArtworks);
+        setLatestYear(fetchedYear || '2025-2026'); // Фолбек, якщо база ще порожня
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Помилка завантаження головної сторінки:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  if (isLoading) {
+    return <div style={{ textAlign: 'center', padding: '100px 0' }}>Завантаження...</div>;
+  }
 
   return (
     <div className="homePage">
@@ -48,42 +60,63 @@ export const Home = () => {
               Черкаська державна художня школа ім. Данила Нарбута — це простір, де розкриваються таланти, формується художній смак та народжуються майбутні митці. Запрошуємо до нашої творчої родини!
             </p>
             <div className="homeHeroButtons">
-              <Link to="/admission/rules" className="btn btnPrimary">Вступ 2026</Link>
-              <Link to="/gallery/2025-2026" className="btn btnSecondary">Віртуальна галерея</Link>
+              {/* Тут можна залишити статичний лінк на правила прийому */}
+              <Link to="/admissionrules" className="btn btnPrimary">Вступ</Link>
+              {/* Динамічний лінк на найсвіжіший рік галереї! */}
+              <Link to={`/works-archive`} className="btn btnSecondary">Віртуальна галерея</Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. СЕКЦІЯ НАПРЯМКІВ */}
+      {/* 2. СЕКЦІЯ НАПРЯМКІВ (з Sanity) */}
       <section className="homeDirections">
         <div className="container">
           <h3 className="homeSectionTitle">Наші освітні напрямки</h3>
           <div className="homeDirectionsGrid">
-            {directions.map((dir, index) => (
-              <div key={index} className="directionCard">
-                <div className="directionCardIcon">{dir.icon}</div>
-                <h4 className="directionCardTitle">{dir.title}</h4>
-                <p className="directionCardText">{dir.text}</p>
-              </div>
-            ))}
+            {subjects.map((subject) => {
+              // Динамічна іконка, як на сторінці Предметів
+              const IconComponent = FaIcons[subject.iconName] || FaIcons.FaBookOpen;
+              
+              return (
+                <div key={subject._id} className="directionCard">
+                  <div className="directionCardIcon">
+                    <IconComponent />
+                  </div>
+                  <h4 className="directionCardTitle">{subject.title}</h4>
+                  {/* Обрізаємо опис, якщо він занадто довгий, щоб картки були рівними */}
+                  <p className="directionCardText">
+                    {subject.description.length > 100 
+                      ? `${subject.description.substring(0, 100)}...` 
+                      : subject.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 3. ПРЕВ'Ю ГАЛЕРЕЇ */}
+      {/* 3. ПРЕВ'Ю ГАЛЕРЕЇ (з Sanity) */}
       <section className="homeGalleryPreview">
         <div className="container">
-          <h3 className="homeSectionTitle">Творчість наших учнів</h3>
+          <h3 className="homeSectionTitle">Нові роботи наших учнів</h3>
           <div className="homeGalleryGrid">
-            {sampleImages.map((imgUrl, index) => (
-              <div key={index} className="galleryPreviewItem">
-                <img src={imgUrl} alt={`Дитяча робота ${index + 1}`} className="galleryPreviewImg" />
+            {recentArtworks.map((art) => (
+              <div key={art._id} className="galleryPreviewItem">
+                {art.image && (
+                  <img 
+                    src={urlFor(art.image).url()} 
+                    alt={art.title || 'Дитяча робота'} 
+                    className="galleryPreviewImg" 
+                    loading="lazy"
+                  />
+                )}
               </div>
             ))}
           </div>
           <div className="homeGalleryCenterBtn">
-            <Link to="/gallery/2025-2026" className="btn btnPrimary">Переглянути всі роботи</Link>
+            <Link to="/works-archive" className="btn btnPrimary">Переглянути всі роботи</Link>
           </div>
         </div>
       </section>

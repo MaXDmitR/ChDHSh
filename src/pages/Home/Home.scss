@@ -56,7 +56,7 @@
   color: white;
   min-height: 70vh;
   display: flex;
-  align-items: center;
+text-align: center;
 
   @include media-breakpoint-up('lg') {
     padding: 120px 0;
@@ -74,6 +74,7 @@
   font-weight: $fw-bold;
   line-height: 1.2;
   margin-bottom: 20px;
+color: white;
 
   @include media-breakpoint-up('lg') {
     font-size: $fs-h1; // На десктопі твоя змінна 42px
