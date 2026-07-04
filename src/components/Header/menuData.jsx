@@ -17,6 +17,7 @@ export const menuItems = [
     icon: FaUserEdit, 
     submenu: [
       { title: 'Правила прийому', url: '/admissionrules' },
+      { title: 'Рівні навчання', url: '/educationlevels' },
       { title: 'Заява', url: '/statement' },
       { title: 'Пільгове навчання', url: '/preferentialtuition' },
     ]

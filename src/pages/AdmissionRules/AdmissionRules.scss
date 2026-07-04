@@ -205,3 +205,18 @@
     margin-top: 2px;
   }
 }
+
+// ==========================================
+// НОВА СІТКА ДЛЯ РОЗДІЛЕННЯ ЕКРАНА НА ДВІ КОЛОНКИ
+// ==========================================
+.admissionMainGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: start; // Щоб колонки вирівнювались по верхньому краю
+
+  @include media-breakpoint-up('lg') {
+    grid-template-columns: 1fr 1.1fr; // Права колонка з документами трооохи ширша для краси
+    gap: 60px;
+  }
+}

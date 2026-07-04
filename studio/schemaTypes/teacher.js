@@ -1,5 +1,3 @@
-// studio/schemaTypes/teacher.js
-
 export default {
   name: 'teacher', // Технічна назва (для коду)
   title: 'Викладачі', // Красива назва для адмінки
@@ -17,11 +15,7 @@ export default {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
-    {
-      name: 'shortDesc',
-      title: 'Короткий опис (для списку)',
-      type: 'text', // text дає більше поле для вводу, ніж string
-    },
+    // Поле shortDesc повністю видалено
     {
       name: 'fullDesc',
       title: 'Повна біографія (для сторінки профілю)',

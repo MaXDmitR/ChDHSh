@@ -26,6 +26,8 @@ import Footer from '@/components/Footer/Footer'
 
 import TeacherProfile from '@/pages/Teachers/TeacherProfile'
 
+import EducationLevels from '@/pages/EducationLevels/EducationLevels'
+
 
 
 const App = () => {
@@ -38,6 +40,7 @@ const App = () => {
           <Route path="/about" element={<AboutSchool />} />
           <Route path="/teachers" element={<Teachers />} />
           <Route path="/teachers/:id" element={<TeacherProfile />} />
+          <Route path="/educationlevels" element={<EducationLevels />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/works-archive" element={<WorksArchive />} />

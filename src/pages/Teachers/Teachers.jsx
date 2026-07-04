@@ -47,7 +47,7 @@ const Teachers = () => {
                 <div className="teacherInfo">
                   <h3 className="teacherName">{teacher.name}</h3>
                   <span className="teacherRole">{teacher.role}</span>
-                  <p className="teacherDesc">{teacher.shortDesc}</p>
+                  
                   
                   {/* Посилання на персональну сторінку */}
                   <Link to={`/teachers/${teacher._id}`} className="btn btnPrimary teacherBtn">

@@ -26,15 +26,20 @@
 .teacherCard {
   background-color: $bg-body;
   border-radius: $radius-md;
-  overflow: hidden; // Щоб картинка не вилазила за заокруглені кути
+  overflow: hidden; 
   box-shadow: $shadow-sm;
   border: 1px solid $border-color;
   @include transition-base;
 
+  // НОВЕ: Робимо картку флекс-колонкою
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Гарантуємо, що вона тягнеться на всю висоту клітинки гріда
+
   &:hover {
     transform: translateY(-8px);
     box-shadow: $shadow-md;
-    border-color: rgba($color-primary, 0.3); // Легка підсвітка рамки
+    border-color: rgba($color-primary, 0.3); 
   }
 }
 
@@ -61,6 +66,11 @@
 .teacherInfo {
   padding: 25px 20px;
   text-align: center;
+
+  // НОВЕ: Перетворюємо текстовий блок на флекс
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; // Змушує цей блок зайняти весь вільний простір, що залишився від фотографії
 }
 
 .teacherName {
@@ -85,4 +95,8 @@
   color: $text-secondary;
   line-height: 1.6;
   margin: 0;
+}
+
+.teacherBtn {
+  margin-top: auto; // МАГІЯ: автоматичний відступ зверху штовхає кнопку в самий низ!
 }

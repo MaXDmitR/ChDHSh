@@ -165,3 +165,129 @@ h2 {
     }
   }
 }
+
+// Додай цей код у кінець PreferentialTuition.scss
+
+.sectionMainTitle {
+  font-size: $fs-h2;
+  color: $text-primary;
+  margin-bottom: 25px;
+  font-weight: $fw-bold;
+  border-bottom: 2px solid $bg-dropdown;
+  padding-bottom: 15px;
+}
+
+// Новий тип карток для великого об'єму тексту
+.categoryCardColumn {
+  background-color: white;
+  padding: 30px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  border-left: 4px solid $color-primary;
+  margin-bottom: 30px;
+  
+  .categoryHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    h3 {
+      font-size: $fs-medium;
+      font-weight: $fw-bold;
+      color: $text-primary;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+
+  .categoryHeaderIcon {
+    font-size: 24px;
+    color: $color-primary;
+    background-color: rgba($color-primary, 0.1);
+    padding: 12px;
+    border-radius: $radius-circle;
+    flex-shrink: 0;
+  }
+
+  .categoryIntro {
+    font-size: $fs-body;
+    color: $text-secondary;
+    margin-bottom: 15px;
+  }
+
+  .categoryOutro {
+    font-size: $fs-body;
+    color: $text-secondary;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed $border-color;
+  }
+}
+
+// Марковані списки в лівій частині
+.textList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+
+  li {
+    font-size: $fs-body;
+    color: $text-primary;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+
+    &::before {
+      content: '•';
+      color: $color-primary;
+      position: absolute;
+      left: 0;
+      font-size: 18px;
+    }
+  }
+}
+
+// Підзаголовок у правій частині
+.subHeadingDocs {
+  font-size: $fs-body;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin: 25px 0 15px 0;
+}
+
+// Допоміжний список (без зелених галочок)
+.docsSubList {
+  li {
+    align-items: flex-start;
+  }
+  .dotIcon {
+    color: $color-primary;
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+}
+
+// Модифікатори для важливих повідомлень
+.warningAlert {
+  background-color: rgba(255, 193, 7, 0.1); // Жовтуватий фон для "Важливо"
+  border-color: rgba(255, 193, 7, 0.4);
+  margin-bottom: 20px;
+  
+  .alertIcon {
+    color: #ff9800;
+  }
+}
+
+.noticeAlert {
+  background-color: $bg-light;
+  border-color: $border-color;
+  margin-top: 20px;
+
+  .alertIcon {
+    color: $text-secondary;
+  }
+}
