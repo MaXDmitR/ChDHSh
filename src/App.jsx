@@ -45,7 +45,7 @@ const App = () => {
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/works-archive" element={<WorksArchive />} />
           <Route path="/admissionrules" element={<AdmissionRules />} />
-          <Route path="/statement" element={<Statement />} />
+          {/*<Route path="/statement" element={<Statement />} />*/}
           <Route path="/preferentialtuition" element={<PreferentialTuition />} />
           <Route path="/gallery/2025-2026" element={<Gallery year="2025-2026" />} />
           <Route path="/gallery/2024-2025" element={<Gallery year="2024-2025" />} />
