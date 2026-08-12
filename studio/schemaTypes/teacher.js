@@ -1,7 +1,7 @@
 export default {
-  name: 'teacher', // Технічна назва (для коду)
-  title: 'Викладачі', // Красива назва для адмінки
-  type: 'document', // Це означає, що це окремий запис (документ) у базі
+  name: 'teacher', 
+  title: 'Викладачі', 
+  type: 'document', 
   fields: [
     {
       name: 'name',
@@ -15,7 +15,13 @@ export default {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
-    // Поле shortDesc повністю видалено
+    // НОВЕ ПОЛЕ ДЛЯ СОРТУВАННЯ
+    {
+      name: 'order',
+      title: 'Порядковий номер (Сортування)',
+      type: 'number',
+      description: 'Якщо не важливий порядок, залиште поле порожнім',
+    },
     {
       name: 'fullDesc',
       title: 'Повна біографія (для сторінки профілю)',
@@ -29,7 +35,7 @@ export default {
     {
       name: 'achievements',
       title: 'Досягнення',
-      type: 'array', // Масив, щоб директорка могла додавати пункт за пунктом
+      type: 'array', 
       of: [{ type: 'string' }],
     },
     {
@@ -37,7 +43,7 @@ export default {
       title: 'Фото викладача',
       type: 'image',
       options: {
-        hotspot: true, // Це супер-фіча Sanity! Дозволяє обрізати фото (фокусуватися на обличчі) прямо в адмінці
+        hotspot: true, 
       },
     },
   ],

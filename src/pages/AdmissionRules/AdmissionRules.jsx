@@ -79,9 +79,7 @@ const AdmissionRules = () => {
                 ))}
               </ul>
               
-              <div className="docsAction">
-                <Link to="/statement" className="btn btnPrimary">Перейти до подачі заяви</Link>
-              </div>
+              
             </div>
 
             {/* Адреса та вітання */}

@@ -13,7 +13,7 @@ const EducationLevels = () => {
     },
     {
       id: 2,
-      title: "Базовий (середній) підрівень",
+      title: "Базовий підрівень",
       icon: <FaPaintBrush />,
       age: "від 10 років (5–9 класи)",
       duration: "5 років",
@@ -21,7 +21,7 @@ const EducationLevels = () => {
     },
     {
       id: 3,
-      title: "Поглиблений (профільний) підрівень",
+      title: "Поглиблений підрівень",
       icon: <FaUserGraduate />,
       age: "від 15 років (10–11 класи)",
       duration: "2 роки",

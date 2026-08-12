@@ -10,7 +10,7 @@ const Teachers = () => {
   // useEffect спрацює один раз при завантаженні сторінки
   useEffect(() => {
     // GROQ-запит: "Дістань усі документи з типом teacher"
-    const query = '*[_type == "teacher"]';
+    const query = '*[_type == "teacher"] | order(coalesce(order, 999) asc)';
     
     client.fetch(query)
       .then((data) => {
