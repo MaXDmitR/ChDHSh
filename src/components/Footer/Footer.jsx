@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { client } from '@/sanity'; 
-import logo from '@/assets/logo.webp';
+import logoWhite from '@/assets/logo-white.svg'; // або path27.jpg / logo-white.png
 import './Footer.scss';
 
 const Footer = () => {
@@ -24,10 +24,12 @@ const Footer = () => {
           
           <div className="footerCol">
             <Link to="/" className="footerLogo">
-              <img src={logo} alt="ЧДХШ Лого" className="footerLogoImg" />
+              <img src={logoWhite} alt="ЧДХШ" className="footerLogoImg" />
               <div className="footerLogoText">
-                <span className="footerLogoSub">ім. Данила Нарбута</span>
-                <span className="footerLogoTitle">ЧДХШ</span>
+                <span className="footerLogoLineTop">ЧЕРКАСЬКА ДИТЯЧА ХУДОЖНЯ</span>
+                <span className="footerLogoLineBottom">
+                  ШКОЛА <span className="textLower">ім.</span> ДАНИЛА НАРБУТА
+                </span>
               </div>
             </Link>
             <p className="footerDesc">

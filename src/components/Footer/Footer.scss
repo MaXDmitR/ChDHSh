@@ -25,36 +25,54 @@
 }
 
 // --- Колонка 1: Логотип ---
+// --- Колонка 1: Логотип ---
 .footerLogo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  @include transition-base;
+
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 .footerLogoImg {
-  height: 55px;
-  background-color: white; // Біла підложка, щоб лого не зливалось з темним фоном
-  border-radius: 4px;
-  padding: 3px;
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  background: transparent; // Жодних білих рамок і підкладок
+  padding: 0;
+  margin-bottom: 12px;
 }
 
 .footerLogoText {
   display: flex;
   flex-direction: column;
+  font-family: 'NAMU 1960', sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.05em;
 
-  .footerLogoSub {
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.6);
+  .footerLogoLineTop {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: uppercase;
   }
 
-  .footerLogoTitle {
-    font-size: 22px;
-    font-weight: $fw-bold;
-    color: white;
-    line-height: 1.1;
+  .footerLogoLineBottom {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 3px;
+    text-transform: uppercase;
+
+    .textLower {
+      text-transform: lowercase;
+      font-size: 0.9em;
+    }
   }
 }
 

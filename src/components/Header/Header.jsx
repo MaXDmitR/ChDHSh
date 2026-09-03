@@ -3,23 +3,23 @@ import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { FaPhoneAlt, FaFacebookF, FaInstagram, FaEnvelope, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { menuItems } from './menuData';
-import logo from '../../assets/logo.webp'; 
-import { client } from '@/sanity'; 
+import logoSign from '../../assets/logo-sign.svg';
+import { client } from '@/sanity';
 import './Header.scss';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
-  
+
   // Стейти для даних з Sanity
   const [latestYears, setLatestYears] = useState([]);
   const [settings, setSettings] = useState(null);
-  
+
   const location = useLocation();
 
   useEffect(() => {
-    setIsMenuOpen(false);       
-    setOpenSubmenuIndex(null);  
+    setIsMenuOpen(false);
+    setOpenSubmenuIndex(null);
   }, [location]);
 
   // Паралельне завантаження років та контактів
@@ -28,7 +28,7 @@ export const Header = () => {
       try {
         const yearsQuery = `array::unique(*[_type == "artwork"].year) | order(@ desc)`;
         const settingsQuery = '*[_type == "siteSettings"][0]';
-        
+
         // Promise.all дозволяє виконати обидва запити одночасно для швидкості
         const [yearsData, settingsData] = await Promise.all([
           client.fetch(yearsQuery),
@@ -71,7 +71,7 @@ export const Header = () => {
               </a>
             )}
           </div>
-          
+
           <div className="headerActions">
             <div className="headerSocials">
               {settings?.facebookUrl && <a href={settings.facebookUrl} target="_blank" rel="noreferrer"><FaFacebookF /></a>}
@@ -85,15 +85,17 @@ export const Header = () => {
       {/* --- ОСНОВНИЙ ХЕДЕР --- */}
       <div className="headerMain">
         <div className="container headerMainContainer">
-          
+
           <div className="headerLogoBlock">
-            <Link to='/'>
-              <img src={logo} alt="ЧДХШ ім.Данила Нарбута" className="headerLogoImg" />
+            <Link to="/" className="headerLogoLink">
+              <img src={logoSign} alt="ЧДХШ" className="headerLogoImg" />
+              <div className="headerLogoText">
+                <span className="logoLineTop">черкаська дитяча художня</span>
+                <span className="logoLineBottom">
+                  <span className="textUpper">ШКОЛА</span> <span className="textLower">ім.</span> <span className="textUpper">ДАНИЛА НАРБУТА</span>
+                </span>
+              </div>
             </Link>
-            <div className="headerLogoText">
-              <span className="headerLogoSub">ім.Данила Нарбута</span>
-              <h1 className="headerLogoTitle">ЧЕРКАСЬКА ДИТЯЧА ХУДОЖНЯ ШКОЛА</h1>
-            </div>
           </div>
 
           <button className="headerHamburger" onClick={toggleMenu}>
@@ -105,13 +107,13 @@ export const Header = () => {
             <ul className="headerMenu">
               {menuItems.map((item, index) => {
                 const Icon = item.icon;
-                
+
                 let activeSubmenu = item.submenu;
                 if (item.title === 'ВІРТУАЛЬНА ДИТЯЧА ГАЛЕРЕЯ' && latestYears.length > 0) {
                   activeSubmenu = [
-                    ...latestYears.map(year => ({ 
-                      title: `${year} навчальний рік`, 
-                      url: `/gallery/${year}` 
+                    ...latestYears.map(year => ({
+                      title: `${year} навчальний рік`,
+                      url: `/gallery/${year}`
                     })),
                     { title: 'Архів робіт', url: '/works-archive' }
                   ];
@@ -121,22 +123,37 @@ export const Header = () => {
                 const isSubmenuOpen = openSubmenuIndex === index;
 
                 return (
-                  <li 
-                    key={index} 
+                  <li
+                    key={index}
                     className={clsx("headerMenuItem", hasSubmenu && "headerMenuItemHasSubmenu")}
                   >
                     <div className="headerMenuLinkWrapper">
-                      <Link to={item.url || '#'} className="headerMenuLink">
-                        <div className="headerMenuIconPlaceholder">
-                           <Icon />
-                        </div>
-                        <span className="headerMenuTitle">{item.title}</span>
-                      </Link>
-                      
+                      {hasSubmenu ? (
+                        <button
+                          type="button"
+                          className="headerMenuLink headerMenuLinkBtn"
+                          onClick={() => toggleSubmenu(index)}
+                        >
+                          <div className="headerMenuIconPlaceholder">
+                            <Icon />
+                          </div>
+                          <span className="headerMenuTitle">{item.title}</span>
+                        </button>
+                      ) : (
+                        <Link to={item.url || '#'} className="headerMenuLink">
+                          <div className="headerMenuIconPlaceholder">
+                            <Icon />
+                          </div>
+                          <span className="headerMenuTitle">{item.title}</span>
+                        </Link>
+                      )}
+
                       {hasSubmenu && (
-                        <button 
+                        <button
+                          type="button"
                           className={clsx("headerSubmenuToggle", isSubmenuOpen && "headerSubmenuToggleActive")}
                           onClick={() => toggleSubmenu(index)}
+                          aria-label="Розгорнути підменю"
                         >
                           <FaChevronDown />
                         </button>
@@ -158,21 +175,21 @@ export const Header = () => {
                 );
               })}
             </ul>
-          
+
             {/* Мобільні контакти */}
             <div className="headerMobileExtra">
-               <div className="headerMobileInfo">
-                  {settings?.phoneMain && (
-                    <a href={`tel:${cleanPhone(settings.phoneMain)}`}>
-                      <FaPhoneAlt /> {settings.phoneMain}
-                    </a>
-                  )}
-               </div>
-               <div className="headerMobileActions">
-                  {settings?.facebookUrl && <a href={settings.facebookUrl} target="_blank" rel="noreferrer"><FaFacebookF /></a>}
-                  {settings?.instagramUrl && <a href={settings.instagramUrl} target="_blank" rel="noreferrer"><FaInstagram /></a>}
-                  {settings?.email && <a href={`mailto:${settings.email}`}><FaEnvelope /></a>}
-               </div>
+              <div className="headerMobileInfo">
+                {settings?.phoneMain && (
+                  <a href={`tel:${cleanPhone(settings.phoneMain)}`}>
+                    <FaPhoneAlt /> {settings.phoneMain}
+                  </a>
+                )}
+              </div>
+              <div className="headerMobileActions">
+                {settings?.facebookUrl && <a href={settings.facebookUrl} target="_blank" rel="noreferrer"><FaFacebookF /></a>}
+                {settings?.instagramUrl && <a href={settings.instagramUrl} target="_blank" rel="noreferrer"><FaInstagram /></a>}
+                {settings?.email && <a href={`mailto:${settings.email}`}><FaEnvelope /></a>}
+              </div>
             </div>
           </nav>
         </div>

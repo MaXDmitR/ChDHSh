@@ -67,46 +67,65 @@
 
 // Статистика (цифри)
 .aboutStats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // Рівно 2 рівні колонки 2х2 на мобільних
+  gap: 24px 20px;
   margin-top: 40px;
   padding-top: 30px;
   border-top: 1px solid $border-color;
+
+  @include media-breakpoint-up('sm') {
+    grid-template-columns: repeat(4, 1fr); // Всі 4 цифри в один акуратний рядок від планшета і вище
+    gap: 20px;
+  }
 }
 
 .statItem {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .statNumber {
   font-size: 32px;
   font-weight: $fw-bold;
   color: $color-primary;
-  margin-bottom: 5px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+
+  @include media-breakpoint-up('lg') {
+    font-size: 36px;
+  }
 }
 
 .statLabel {
-  font-size: $fs-small;
+  font-size: 11px;
   color: $text-secondary;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
+  line-height: 1.3;
+  font-weight: $fw-medium;
+
+  @include media-breakpoint-up('sm') {
+    font-size: 12px;
+  }
 }
 
 // Зображення
 .aboutImageWrapper {
-  position: sticky; // БУЛО: relative. Робимо її "липкою"!
-  top: 100px;       // Відступ від верху екрана, коли ми скролимо вниз
-  
+  position: static; // На мобільних картинка просто йде під контентом
   border-radius: $radius-md;
   overflow: hidden;
   box-shadow: $shadow-md;
+  max-height: 450px;
+  width: 100%;
+
+  @include media-breakpoint-up('lg') {
+    position: sticky; // Прилипає тільки на великих екранах, де є 2 колонки
+    top: 100px;
+    max-height: calc(100vh - 140px);
+  }
   
-  // Щоб картинка була красивою і не вилазила за екран на невеликих ноутах:
-  max-height: calc(100vh - 120px); 
-  
-  // Легка внутрішня тінь для ефекту картини
   &::after {
     content: '';
     position: absolute;
@@ -114,7 +133,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
     pointer-events: none;
   }
 }
