@@ -11,9 +11,9 @@ import Home from '@/pages/Home/Home'
 import AboutSchool from '@/pages/AboutSchool/AboutSchool'
 import Teachers from '@/pages/Teachers/Teachers'
 import Contacts from '@/pages/Contacts/Contacts'
-
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import AdmissionRules from '@/pages/AdmissionRules/AdmissionRules'
-import Statement from '@/pages/Statement/Statement'
+
 import PreferentialTuition from '@/pages/PreferentialTuition/PreferentialTuition'
 
 import Subjects from '@/pages/Subjects/Subjects'
@@ -33,6 +33,7 @@ import EducationLevels from '@/pages/EducationLevels/EducationLevels'
 const App = () => {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <main>
         <Header />
         <Routes>

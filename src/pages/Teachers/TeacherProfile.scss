@@ -43,15 +43,24 @@
   overflow: hidden;
   box-shadow: $shadow-sm;
   border: 1px solid $border-color;
+
+  
+  
 }
 
 .profileImageWrapper {
   width: 100%;
-  height: 400px;
-  
+  height: auto; // Замість фіксованих 400px
+  max-height: 520px; // Мобільне обмеження, щоб не скролити занадто довго
+
+  @include media-breakpoint-up('lg') {
+    max-height: none; // На десктопі відкриваємо на всю висоту фотографії
+  }
+
   img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    display: block;
     object-fit: cover;
     object-position: top center;
   }
